@@ -11,4 +11,8 @@ public class Define
         ATTACK,
         DIE,
     }
+    public enum GemGrade
+    {
+
+    }
 }
