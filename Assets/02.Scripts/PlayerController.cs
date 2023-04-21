@@ -65,7 +65,8 @@ public class PlayerController : MonoBehaviour
     }
     private void FixedUpdate()
     {
-        OnMove();
+        if (State != Define.PlayerState.ATTACK)
+            OnMove();
     }
     void LateUpdate()
     {
@@ -89,14 +90,26 @@ public class PlayerController : MonoBehaviour
     {
         if (inputVec.x != 0 || inputVec.y != 0)
             State = Define.PlayerState.WALK;
+        if (Input.GetMouseButtonDown(0))
+            State = Define.PlayerState.ATTACK;
     }
     public void UpdateWalk()
     {
         if (inputVec.x == 0 && inputVec.y == 0)
             State = Define.PlayerState.IDLE;
+        if (Input.GetMouseButtonDown(0))
+            State = Define.PlayerState.ATTACK;
     }
     public void UpdateAttack()
     {
-
+        AttackEnd();
+    }
+    public void AttackEnd()
+    {
+        if (Input.GetMouseButtonUp(0))
+        {
+            Debug.Log("attackEnd");
+            State = Define.PlayerState.IDLE;
+        }
     }
 }

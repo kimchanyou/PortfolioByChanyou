@@ -31,10 +31,6 @@ public class SpawnManager : MonoBehaviour
         if (isSpawn)
             GemSpawn();
     }
-    void test()
-    {
-        
-    }
 
     void GemSpawn()
     {
