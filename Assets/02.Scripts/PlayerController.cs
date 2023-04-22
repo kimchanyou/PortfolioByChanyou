@@ -4,12 +4,17 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    public float attackTime = 2f;
+    
     public Vector2 inputVec;
     [SerializeField]
     private float moveSpeed = 5f;
 
     public Rigidbody2D rigid;
     public SpriteRenderer spriter;
+
+    public bool isClick = true;
+    public bool isAttack = false;
 
     [SerializeField]
     private Define.PlayerState state = Define.PlayerState.IDLE;
@@ -90,26 +95,29 @@ public class PlayerController : MonoBehaviour
     {
         if (inputVec.x != 0 || inputVec.y != 0)
             State = Define.PlayerState.WALK;
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetKeyDown(KeyCode.Space))
             State = Define.PlayerState.ATTACK;
     }
     public void UpdateWalk()
     {
         if (inputVec.x == 0 && inputVec.y == 0)
             State = Define.PlayerState.IDLE;
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetKeyDown(KeyCode.Space))
             State = Define.PlayerState.ATTACK;
     }
     public void UpdateAttack()
     {
-        AttackEnd();
+        
     }
+    // 애니메이션 이벤트 호출 생각해보기
     public void AttackEnd()
     {
-        if (Input.GetMouseButtonUp(0))
-        {
-            Debug.Log("attackEnd");
-            State = Define.PlayerState.IDLE;
-        }
+        StartCoroutine(waitTime(attackTime));
+    }
+    IEnumerator waitTime(float attackTime) // 공격 속도 조정 할 때 사용할 수 있을듯
+    {
+        State = Define.PlayerState.IDLE;
+        yield return new WaitForSeconds(attackTime);
+        State = Define.PlayerState.ATTACK;
     }
 }
