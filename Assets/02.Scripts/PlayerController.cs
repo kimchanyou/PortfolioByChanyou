@@ -4,18 +4,17 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    public float attackTime = 2f;
+    public float attackTime = 0.1f; // 공격 쿨타임
     
     public Vector2 inputVec;
     [SerializeField]
-    private float moveSpeed = 5f;
+    private float moveSpeed = 5f;   // 이동 속도
 
     public Rigidbody2D rigid;
     public SpriteRenderer spriter;
 
-    public bool isClick = true;
     public bool isAttack = false;
-
+    
     [SerializeField]
     private Define.PlayerState state = Define.PlayerState.IDLE;
 
@@ -30,16 +29,16 @@ public class PlayerController : MonoBehaviour
             switch (state)
             {
                 case Define.PlayerState.DIE:
-                    anim.CrossFade("DIE", 0.2f);
+                    anim.CrossFade("DIE", 0.1f);
                     break;
                 case Define.PlayerState.IDLE:
-                    anim.CrossFade("IDLE", 0.2f);
+                    anim.CrossFade("IDLE", 0.1f);
                     break;
                 case Define.PlayerState.WALK:
-                    anim.CrossFade("WALK", 0.2f);
+                    anim.CrossFade("WALK", 0.1f);
                     break;
                 case Define.PlayerState.ATTACK:
-                    anim.CrossFade("ATTACK", 0.2f);
+                    anim.CrossFade("ATTACK", 0.1f);
                     break;
             }
         }
@@ -70,16 +69,17 @@ public class PlayerController : MonoBehaviour
     }
     private void FixedUpdate()
     {
-        if (State != Define.PlayerState.ATTACK)
-            OnMove();
+        OnMove();
     }
     void LateUpdate()
     {
+        // 좌우 이동시에 이미지 방향전환
         if (inputVec.x != 0)
             spriter.flipX = inputVec.x < 0;
     }
     private void OnMove()
     {
+        // GetAxisRaw : 키 입력 받을 때 딱 떨어지도록
         inputVec.x = Input.GetAxisRaw("Horizontal");
         inputVec.y = Input.GetAxisRaw("Vertical");
 
@@ -93,31 +93,36 @@ public class PlayerController : MonoBehaviour
     }
     public void UpdateIdle()
     {
-        if (inputVec.x != 0 || inputVec.y != 0)
-            State = Define.PlayerState.WALK;
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (!isAttack && Input.GetKeyDown(KeyCode.Space))
             State = Define.PlayerState.ATTACK;
+        if (inputVec.sqrMagnitude != 0)
+            State = Define.PlayerState.WALK;
     }
     public void UpdateWalk()
     {
-        if (inputVec.x == 0 && inputVec.y == 0)
-            State = Define.PlayerState.IDLE;
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (!isAttack && Input.GetKeyDown(KeyCode.Space))
             State = Define.PlayerState.ATTACK;
+        if (inputVec.sqrMagnitude == 0)
+            State = Define.PlayerState.IDLE;
     }
     public void UpdateAttack()
     {
-        
+        StartCoroutine(AttackTime(attackTime)); // 공격 가능 쿨타임 설정
     }
-    // 애니메이션 이벤트 호출 생각해보기
-    public void AttackEnd()
-    {
-        StartCoroutine(waitTime(attackTime));
-    }
-    IEnumerator waitTime(float attackTime) // 공격 속도 조정 할 때 사용할 수 있을듯
+
+    // 공격 애니메이션 끝나면 호출 되는 함수
+    public void AttackEndEvent()
     {
         State = Define.PlayerState.IDLE;
+    }
+    public void OnHitEvent()
+    {
+
+    }
+    IEnumerator AttackTime(float attackTime)
+    {
+        isAttack = true;
         yield return new WaitForSeconds(attackTime);
-        State = Define.PlayerState.ATTACK;
+        isAttack = false;
     }
 }
