@@ -386,7 +386,7 @@ GameObject:
   - component: {fileID: 1660865248095373546}
   - component: {fileID: 1791821960733286130}
   - component: {fileID: 1540096068601610739}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Dark_Blue
   m_TagString: Untagged
   m_Icon: {fileID: 0}

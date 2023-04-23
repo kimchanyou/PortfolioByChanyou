@@ -347,7 +347,7 @@ GameObject:
   - component: {fileID: 2090964006172415844}
   - component: {fileID: 3003941104848539816}
   - component: {fileID: 3436731762459339049}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Lilac
   m_TagString: Untagged
   m_Icon: {fileID: 0}

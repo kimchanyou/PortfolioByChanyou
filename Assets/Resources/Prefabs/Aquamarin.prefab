@@ -332,7 +332,7 @@ GameObject:
   - component: {fileID: 2596452473019113464}
   - component: {fileID: 7970570921610012721}
   - component: {fileID: 2667931255097637849}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Aquamarin
   m_TagString: Untagged
   m_Icon: {fileID: 0}

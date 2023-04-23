@@ -17456,11 +17456,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 59b75584487f2e04aa7155f63e529a39, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackTime: 0.1
+  attackTime: 0.5
   inputVec: {x: 0, y: 0}
+  dirVec: {x: 0, y: 0}
   moveSpeed: 5
   rigid: {fileID: 0}
   spriter: {fileID: 0}
+  targetGem: {fileID: 0}
   isAttack: 0
   state: 0
 --- !u!1 &1351747204

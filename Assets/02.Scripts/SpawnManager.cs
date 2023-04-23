@@ -7,12 +7,13 @@ public class SpawnManager : MonoBehaviour
     // 랜덤 좌표에서 보석 스폰
     // 같은 위치에서 스폰되지 않도록
     // 캐릭터가 있는 자리에 스폰되지 않도록
+    public static SpawnManager instance;
+
     public Vector2 spawnPoints = new Vector2(-12.8f, -7.28f);
     public int spawnVecX = 0;
     public int spawnVecY = 0;
 
-    [SerializeField]
-    private int gemCount = 0;
+    public int gemCount = 0;
 
     public int gemLimit = 10;
 

@@ -332,7 +332,7 @@ GameObject:
   - component: {fileID: 8020265848546402656}
   - component: {fileID: 8022493041964549952}
   - component: {fileID: 1009898797850062096}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Brown
   m_TagString: Untagged
   m_Icon: {fileID: 0}

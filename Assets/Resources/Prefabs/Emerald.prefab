@@ -111,7 +111,7 @@ GameObject:
   - component: {fileID: 2297023937981530673}
   - component: {fileID: 4126702214586646788}
   - component: {fileID: -3893689685415124686}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Emerald
   m_TagString: Untagged
   m_Icon: {fileID: 0}
