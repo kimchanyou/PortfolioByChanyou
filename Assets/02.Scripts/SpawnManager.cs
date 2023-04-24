@@ -9,8 +9,6 @@ public class SpawnManager : MonoBehaviour
     // 캐릭터가 있는 자리에 스폰되지 않도록
     public static SpawnManager instance;
 
-    public PoolManager poolManager;
-
     public List<GameObject> pool;
 
     public Vector2 spawnPoints = new Vector2(-12.8f, -7.28f);
@@ -26,7 +24,6 @@ public class SpawnManager : MonoBehaviour
     void Start()
     {
         pool = new List<GameObject>();
-        poolManager = FindObjectOfType<PoolManager>();
     }
 
     void Update()
@@ -45,7 +42,7 @@ public class SpawnManager : MonoBehaviour
     IEnumerator GemCreate(Vector3 spawnPoint)
     {
         isSpawn = true;
-        pool = poolManager.pool;
+        pool = PoolManager.pool;
         for (int i = 0; i < pool.Count; i++)
         {
             if (!pool[i].activeSelf)

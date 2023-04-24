@@ -1,0 +1,10 @@
+{
+  "gemData": [
+    {
+      "id": "101",
+      "attack": "20",
+      "name": "test",
+      "spriteName": "Aquamarin"
+    }
+  ]
+}

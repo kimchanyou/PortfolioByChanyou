@@ -4,15 +4,15 @@ using UnityEngine;
 
 public class PoolManager : MonoBehaviour
 {
-    public static PoolManager instance; // ΩÃ±€≈Ê
-
     public GameObject prefabs;
+    public GameObject go;
 
-    public List<GameObject> pool;
+    public static List<GameObject> pool;
 
-    private void Awake()
+    public void Init()
     {
         prefabs = Resources.Load<GameObject>("Prefabs/01Gems");
+        go = GameObject.Find("@Managers");
 
         pool = new List<GameObject>();
     }
@@ -25,25 +25,12 @@ public class PoolManager : MonoBehaviour
     {
         GameObject select = null;
 
-        //foreach (GameObject item in pool)
-        //{
-        //    if (!item.activeSelf)
-        //    {
-        //        select = item;
-        //        select.SetActive(false);
-        //        break;
-        //    }
-        //}
-
-        //if (select == null)
-        //{
-            if (pool.Count < poolCount)
-            {
-                select = Instantiate(prefabs, transform);
-                select.SetActive(false);
-                pool.Add(select);
-            }
-        //}
+        if (pool.Count < poolCount)
+        {
+            select = Instantiate(prefabs, go.transform);
+            select.SetActive(false);
+            pool.Add(select);
+        }
 
         return select;
     }
