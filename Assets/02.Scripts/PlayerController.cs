@@ -133,8 +133,7 @@ public class PlayerController : MonoBehaviour
         hpbar.value -= 0.2f;
         if (hpbar.value <= 0.001f)
         {
-            Destroy(targetGem);
-            // SpawnManager의 카운트 낮춰야 됨. 오브젝트 풀링 하고 나서 해결 하면 될 듯
+            targetGem.SetActive(false);
         }
         
     }

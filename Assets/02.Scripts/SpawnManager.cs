@@ -9,48 +9,54 @@ public class SpawnManager : MonoBehaviour
     // 캐릭터가 있는 자리에 스폰되지 않도록
     public static SpawnManager instance;
 
+    public PoolManager poolManager;
+
+    public List<GameObject> pool;
+
     public Vector2 spawnPoints = new Vector2(-12.8f, -7.28f);
     public int spawnVecX = 0;
     public int spawnVecY = 0;
-
-    public int gemCount = 0;
 
     public int gemLimit = 10;
 
     WaitForSeconds waitTime = new WaitForSeconds(3f);
 
-    GameObject[] gems;
+    public bool isSpawn = false;
 
-    public bool isSpawn = true;
     void Start()
     {
-        gems = Resources.LoadAll<GameObject>("Prefabs/");
+        pool = new List<GameObject>();
+        poolManager = FindObjectOfType<PoolManager>();
     }
 
     void Update()
     {
-        if (isSpawn)
+        if(!isSpawn)
             GemSpawn();
     }
 
     void GemSpawn()
     {
-        if (gemCount < gemLimit)
-        {
-            spawnVecX = Random.Range(0, 26);
-            spawnVecY = Random.Range(0, 16);
-            Vector3 spawnPoint = new Vector3(spawnPoints.x + spawnVecX, spawnPoints.y + spawnVecY, 0);
-            StartCoroutine(GemCreate(spawnPoint));
-        }
+        spawnVecX = Random.Range(0, 26);
+        spawnVecY = Random.Range(0, 16);
+        Vector3 spawnPoint = new Vector3(spawnPoints.x + spawnVecX, spawnPoints.y + spawnVecY, 0);
+        StartCoroutine(GemCreate(spawnPoint));
     }
     IEnumerator GemCreate(Vector3 spawnPoint)
     {
-        isSpawn = false;
-        GameObject go = gems[Random.Range(0, gems.Length)];
-        GameObject clone = Instantiate(go, spawnPoint, Quaternion.identity);
-        gemCount++;
-        yield return waitTime;
         isSpawn = true;
+        pool = poolManager.pool;
+        for (int i = 0; i < pool.Count; i++)
+        {
+            if (!pool[i].activeSelf)
+            {
+                pool[i].SetActive(true);
+                pool[i].transform.position = spawnPoint;
+                break;
+            }
+        }
+        yield return waitTime;
+        isSpawn = false;
     }
 
 }
