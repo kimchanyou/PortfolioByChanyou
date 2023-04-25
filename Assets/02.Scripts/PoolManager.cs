@@ -5,14 +5,12 @@ using UnityEngine;
 public class PoolManager : MonoBehaviour
 {
     public GameObject prefabs;
-    public GameObject go;
 
     public static List<GameObject> pool;
 
-    public void Init()
+    public void Awake()
     {
         prefabs = Resources.Load<GameObject>("Prefabs/01Gems");
-        go = GameObject.Find("@Managers");
 
         pool = new List<GameObject>();
     }
@@ -27,7 +25,7 @@ public class PoolManager : MonoBehaviour
 
         if (pool.Count < poolCount)
         {
-            select = Instantiate(prefabs, go.transform);
+            select = Object.Instantiate(prefabs, transform);
             select.SetActive(false);
             pool.Add(select);
         }

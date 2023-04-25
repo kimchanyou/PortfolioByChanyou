@@ -11,7 +11,7 @@ public class SpawnManager : MonoBehaviour
 
     public List<GameObject> pool;
 
-    public Vector2 spawnPoints = new Vector2(-12.8f, -7.28f);
+    public Vector2 spawnPoints = new Vector2(-9.5f, -9.5f);
     public int spawnVecX = 0;
     public int spawnVecY = 0;
 
@@ -21,9 +21,10 @@ public class SpawnManager : MonoBehaviour
 
     public bool isSpawn = false;
 
-    void Start()
+    public void Init()
     {
         pool = new List<GameObject>();
+        GemSpawn();
     }
 
     void Update()

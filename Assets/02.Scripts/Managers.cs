@@ -9,12 +9,8 @@ public class Managers : MonoBehaviour
 
     #region Core
     DataManager _data = new DataManager();
-    PoolManager _pool = new PoolManager();
-    UIManager _ui = new UIManager();
 
     public static DataManager Data { get { return Instance._data; } }
-    public static PoolManager Pool { get { return Instance._pool; } }
-    public static UIManager UI { get { return Instance._ui; } }
     #endregion
 
     void Awake()
@@ -40,7 +36,6 @@ public class Managers : MonoBehaviour
             s_instance = go.GetComponent<Managers>();
 
             s_instance._data.Init();
-            s_instance._pool.Init();
         }
     }
 
