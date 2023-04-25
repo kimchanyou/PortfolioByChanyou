@@ -8,7 +8,7 @@ public class PoolManager : MonoBehaviour
 
     public static List<GameObject> pool;
 
-    public void Awake()
+    public void Start()
     {
         prefabs = Resources.Load<GameObject>("Prefabs/01Gems");
 

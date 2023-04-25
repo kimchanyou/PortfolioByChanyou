@@ -13,7 +13,7 @@ public class Managers : MonoBehaviour
     public static DataManager Data { get { return Instance._data; } }
     #endregion
 
-    void Awake()
+    void Start()
     {
         Init();
     }
