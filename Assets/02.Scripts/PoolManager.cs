@@ -2,14 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PoolManager : MonoBehaviour
+public class PoolManager
 {
+    public GameObject go;
     public GameObject prefabs;
 
-    public static List<GameObject> pool;
+    public List<GameObject> pool;
 
-    public void Start()
+    public void Init()
     {
+        go = GameObject.Find("@Managers");
         prefabs = Resources.Load<GameObject>("Prefabs/01Gems");
 
         pool = new List<GameObject>();
@@ -25,7 +27,7 @@ public class PoolManager : MonoBehaviour
 
         if (pool.Count < poolCount)
         {
-            select = Object.Instantiate(prefabs, transform);
+            select = Object.Instantiate(prefabs, go.transform);
             select.SetActive(false);
             pool.Add(select);
         }

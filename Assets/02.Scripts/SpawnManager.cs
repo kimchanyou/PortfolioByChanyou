@@ -21,10 +21,9 @@ public class SpawnManager : MonoBehaviour
 
     public bool isSpawn = false;
 
-    public void Init()
+    void Start()
     {
         pool = new List<GameObject>();
-        GemSpawn();
     }
 
     void Update()
@@ -43,7 +42,7 @@ public class SpawnManager : MonoBehaviour
     IEnumerator GemCreate(Vector3 spawnPoint)
     {
         isSpawn = true;
-        pool = PoolManager.pool;
+        pool = Managers.Pool.pool;
         for (int i = 0; i < pool.Count; i++)
         {
             if (!pool[i].activeSelf)

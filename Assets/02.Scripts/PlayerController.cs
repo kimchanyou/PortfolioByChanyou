@@ -52,6 +52,8 @@ public class PlayerController : MonoBehaviour
     {
         rigid = GetComponent<Rigidbody2D>();
         spriter = GetComponent<SpriteRenderer>();
+        Managers.Input.KeyAction -= OnKeyborard;
+        Managers.Input.KeyAction += OnKeyborard;
     }
 
     private void Update()
@@ -73,10 +75,7 @@ public class PlayerController : MonoBehaviour
         }
         TargetFind();
     }
-    private void FixedUpdate()
-    {
-        OnMove();
-    }
+    
     void LateUpdate()
     {
         // 좌우 이동시에 이미지 방향전환
@@ -86,7 +85,7 @@ public class PlayerController : MonoBehaviour
         // 바라보는 방향
         dirVec.x = spriter.flipX ? -1 : 1;
     }
-    private void OnMove()
+    private void OnKeyborard()
     {
         // GetAxisRaw : 키 입력 받을 때 딱 떨어지도록
         inputVec.x = Input.GetAxisRaw("Horizontal");
@@ -97,6 +96,7 @@ public class PlayerController : MonoBehaviour
 
         Debug.DrawRay(transform.position, dirVec * attackRange, Color.green);
     }
+    
     public void UpdateDie()
     {
         // 부활 할건지 물어보는 팝업 창 뜨게?
@@ -106,15 +106,18 @@ public class PlayerController : MonoBehaviour
     {
         if (!isAttack && Input.GetKeyDown(KeyCode.Space))
             State = Define.PlayerState.ATTACK;
-        if (inputVec.sqrMagnitude != 0)
+        if (inputVec.magnitude != 0)
             State = Define.PlayerState.WALK;
     }
     public void UpdateWalk()
     {
         if (!isAttack && Input.GetKeyDown(KeyCode.Space))
             State = Define.PlayerState.ATTACK;
-        if (inputVec.sqrMagnitude == 0)
+        if (Input.GetButton("Horizontal") == false && Input.GetButton("Vertical") == false)
+        {
+            inputVec = Vector2.zero;
             State = Define.PlayerState.IDLE;
+        }
     }
     public void UpdateAttack()
     {
