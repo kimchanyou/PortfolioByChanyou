@@ -4,34 +4,55 @@ using UnityEngine;
 
 public class PoolManager
 {
-    public GameObject go;
+    public Transform root;
     public GameObject prefabs;
 
-    public List<GameObject> pool;
+    public Stack<GameObject> pool;
 
     public void Init()
     {
-        go = GameObject.Find("@Managers");
+        if (root == null)
+        {
+            root = new GameObject { name = "@Pool_Root" }.transform;
+            Object.DontDestroyOnLoad(root);
+        }
         prefabs = Resources.Load<GameObject>("Prefabs/01Gems");
 
-        pool = new List<GameObject>();
-    }
-    private void Update()
-    {
-        Get();
-    }
+        pool = new Stack<GameObject>();
 
-    public GameObject Get(int poolCount = 10)
-    {
-        GameObject select = null;
-
-        if (pool.Count < poolCount)
+        for (int i = 0; i < 10; i++)
         {
-            select = Object.Instantiate(prefabs, go.transform);
-            select.SetActive(false);
-            pool.Add(select);
+            CreateObject();
         }
+    }
+    private GameObject CreateObject()
+    {
+        GameObject newObject = Object.Instantiate(prefabs, root);
+        newObject.SetActive(false);
+        pool.Push(newObject);
 
-        return select;
+        return newObject;
+    }
+    
+    public GameObject GetObject()
+    {
+        if (pool.Count > 0)
+        {
+            GameObject objectInPool = pool.Pop();
+
+            objectInPool.SetActive(true);
+            objectInPool.transform.SetParent(null);
+            return objectInPool;
+        }
+        else
+        {
+            return null;
+        }
+    }
+    public void ReturnObject(GameObject obj)
+    {
+        obj.gameObject.SetActive(false);
+        obj.transform.SetParent(root);
+        pool.Push(obj);
     }
 }

@@ -444,6 +444,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aae8585426c95a7468384a5e37e4a726, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  id: 0
+  attack: 0
+  name: 
+  spriteName: 
+  gemImages: []
+  spriter: {fileID: 0}
 --- !u!1 &8636538004618712404
 GameObject:
   m_ObjectHideFlags: 0

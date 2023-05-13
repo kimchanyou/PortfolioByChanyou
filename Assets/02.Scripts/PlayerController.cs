@@ -136,7 +136,7 @@ public class PlayerController : MonoBehaviour
         hpbar.value -= 0.2f;
         if (hpbar.value <= 0.001f)
         {
-            targetGem.SetActive(false);
+            Managers.Pool.ReturnObject(targetGem);
         }
         
     }

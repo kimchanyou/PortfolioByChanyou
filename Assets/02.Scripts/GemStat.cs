@@ -18,12 +18,16 @@ public class GemStat : MonoBehaviour
     public string Name { get { return name; } set { name = value; } }
     public string SpriteName { get { return spriteName; } set { spriteName = value; } }
 
-    void Start()
+    void Awake()
+    {
+        Init();
+    }
+
+    public void Init()
     {
         id = 0;
         attack = 0;
         name = null;
         spriteName = null;
     }
-
 }

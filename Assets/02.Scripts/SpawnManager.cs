@@ -42,17 +42,13 @@ public class SpawnManager : MonoBehaviour
     IEnumerator GemCreate(Vector3 spawnPoint)
     {
         isSpawn = true;
-        pool = Managers.Pool.pool;
-        for (int i = 0; i < pool.Count; i++)
-        {
-            if (!pool[i].activeSelf)
-            {
-                pool[i].SetActive(true);
-                pool[i].transform.position = spawnPoint;
-                break;
-            }
-        }
-        yield return waitTime;
+        
+        
+        GameObject gem = Managers.Pool.GetObject();
+        if (gem != null)
+            gem.transform.position = spawnPoint;
+
+        yield return waitTime; // 보석이 스폰되는 시간
         isSpawn = false;
     }
 

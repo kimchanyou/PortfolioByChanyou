@@ -5,7 +5,6 @@ using UnityEngine.UI;
 
 public class GemItem : GemStat
 {
-    public Sprite[] gemImages;
 
     public SpriteRenderer spriter;
 
@@ -15,7 +14,6 @@ public class GemItem : GemStat
 
     private void Awake()
     {
-        gemImages = Resources.LoadAll<Sprite>("Textures/");
         spriter = GetComponent<SpriteRenderer>();
     }
 
@@ -27,13 +25,14 @@ public class GemItem : GemStat
         Attack = gemInfo.attack;
         Name = gemInfo.name;
         SpriteName = gemInfo.spriteName;
+        Sprite sprite = Resources.Load<Sprite>($"Textures/{SpriteName}");
 
-        spriter.sprite = Resources.Load<Sprite>($"Textures/{SpriteName}");
-        //spriter.sprite = gemImages[Random.Range(0, gemImages.Length)];
-        
+        spriter.sprite = sprite;
     }
     private void OnDisable()// SetActive(false)가 되었을 때 실행
     {
         GetComponentInChildren<Slider>().value = 1.0f;
+        Init();
+        id = 101;
     }
 }
