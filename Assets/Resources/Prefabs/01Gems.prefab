@@ -448,7 +448,6 @@ MonoBehaviour:
   attack: 0
   name: 
   spriteName: 
-  gemImages: []
   spriter: {fileID: 0}
 --- !u!1 &8636538004618712404
 GameObject:

@@ -1,67 +1,67 @@
 {
   "gemData": [
     {
-      "id": "101",
+      "id": "0",
       "attack": "10",
       "name": "Aquamarin",
       "spriteName": "Aquamarin"
     },
     {
-      "id": "102",
+      "id": "1",
       "attack": "20",
       "name": "Blue",
       "spriteName": "Blue"
     },
     {
-      "id": "103",
+      "id": "2",
       "attack": "30",
       "name": "Brown",
       "spriteName": "Brown"
     },
     {
-      "id": "104",
+      "id": "3",
       "attack": "40",
       "name": "Dark_Blue",
       "spriteName": "Dark_Blue"
     },
     {
-      "id": "105",
+      "id": "4",
       "attack": "50",
       "name": "Emerald",
       "spriteName": "Emerald"
     },
     {
-      "id": "106",
+      "id": "5",
       "attack": "60",
       "name": "Green",
       "spriteName": "Green"
     },
     {
-      "id": "107",
+      "id": "6",
       "attack": "70",
       "name": "Lilac",
       "spriteName": "Lilac"
     },
     {
-      "id": "108",
+      "id": "7",
       "attack": "80",
       "name": "Orange",
       "spriteName": "Orange"
     },
     {
-      "id": "109",
+      "id": "8",
       "attack": "90",
       "name": "Purple",
       "spriteName": "Purple"
     },
     {
-      "id": "110",
+      "id": "9",
       "attack": "100",
       "name": "Red",
       "spriteName": "Red"
     },
     {
-      "id": "111",
+      "id": "10",
       "attack": "110",
       "name": "Yellow",
       "spriteName": "Yellow"
