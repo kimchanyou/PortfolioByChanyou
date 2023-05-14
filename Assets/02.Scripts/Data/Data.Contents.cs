@@ -10,7 +10,7 @@ public class GemInfo
     // Json 파일과 똑같은 이름의 변수를 사용해야한다.
     public int id;
     public float attack;
-    public string name;
+    public string gemName;
     public string spriteName;
 }
 

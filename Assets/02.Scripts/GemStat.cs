@@ -9,13 +9,13 @@ public class GemStat : MonoBehaviour
     [SerializeField]
     protected float attack;
     [SerializeField]
-    protected string name;
+    protected string gemName;
     [SerializeField]
     protected string spriteName;
 
     public int Id { get { return id; } set { id = value; } }
     public float Attack { get { return attack; } set { attack = value; } }
-    public string Name { get { return name; } set { name = value; } }
+    public string GemName { get { return gemName; } set { gemName = value; } }
     public string SpriteName { get { return spriteName; } set { spriteName = value; } }
 
     void Awake()
@@ -27,7 +27,7 @@ public class GemStat : MonoBehaviour
     {
         id = 0;
         attack = 0;
-        name = null;
+        gemName = null;
         spriteName = null;
     }
 }

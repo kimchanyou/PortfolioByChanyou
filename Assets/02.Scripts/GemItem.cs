@@ -8,8 +8,8 @@ public class GemItem : GemStat
 
     public SpriteRenderer spriter;
 
-    public Dictionary<int, GemInfo> dicGem = Managers.Data.dicGemData;
-    
+    public Dictionary<int, GemInfo> dicGem;
+
     public int gemId = 0;
 
     public int choice = 0;
@@ -21,6 +21,7 @@ public class GemItem : GemStat
 
     private void OnEnable() // SetActive(true)가 되었을 때 실행
     {
+        dicGem = Managers.Data.dicGemData;
         float[] probability = new float[5] { 60f, 25f, 10f, 3.5f, 1.5f };
 
         choice = Choose(probability);
@@ -30,7 +31,7 @@ public class GemItem : GemStat
         GemInfo gemInfo = dicGem[gemId];
         Id = gemInfo.id;
         Attack = gemInfo.attack;
-        Name = gemInfo.name;
+        GemName = gemInfo.gemName;
         SpriteName = gemInfo.spriteName;
         Sprite sprite = Resources.Load<Sprite>($"Textures/{SpriteName}");
 

@@ -3,67 +3,67 @@
     {
       "id": "0",
       "attack": "10",
-      "name": "Aquamarin",
+      "gemName": "Aquamarin",
       "spriteName": "Aquamarin"
     },
     {
       "id": "1",
       "attack": "20",
-      "name": "Blue",
+      "gemName": "Blue",
       "spriteName": "Blue"
     },
     {
       "id": "2",
       "attack": "30",
-      "name": "Brown",
+      "gemName": "Brown",
       "spriteName": "Brown"
     },
     {
       "id": "3",
       "attack": "40",
-      "name": "Dark_Blue",
+      "gemName": "Dark_Blue",
       "spriteName": "Dark_Blue"
     },
     {
       "id": "4",
       "attack": "50",
-      "name": "Emerald",
+      "gemName": "Emerald",
       "spriteName": "Emerald"
     },
     {
       "id": "5",
       "attack": "60",
-      "name": "Green",
+      "gemName": "Green",
       "spriteName": "Green"
     },
     {
       "id": "6",
       "attack": "70",
-      "name": "Lilac",
+      "gemName": "Lilac",
       "spriteName": "Lilac"
     },
     {
       "id": "7",
       "attack": "80",
-      "name": "Orange",
+      "gemName": "Orange",
       "spriteName": "Orange"
     },
     {
       "id": "8",
       "attack": "90",
-      "name": "Purple",
+      "gemName": "Purple",
       "spriteName": "Purple"
     },
     {
       "id": "9",
       "attack": "100",
-      "name": "Red",
+      "gemName": "Red",
       "spriteName": "Red"
     },
     {
       "id": "10",
       "attack": "110",
-      "name": "Yellow",
+      "gemName": "Yellow",
       "spriteName": "Yellow"
     }
   ]

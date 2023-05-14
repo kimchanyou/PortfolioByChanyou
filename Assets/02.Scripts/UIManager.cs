@@ -6,12 +6,15 @@ public class UIManager : MonoBehaviour
 {
     public GameObject canvasUI;
     public GameObject inventory;
+    public Drop[] itemLists;
 
     public bool isOpen = false;
     void Start()
     {
-        canvasUI = GameObject.Find("Canvas_UI");
+        canvasUI = this.gameObject;
         inventory = canvasUI.transform.GetChild(0).gameObject;
+        itemLists = GetComponentsInChildren<Drop>();
+        inventory.SetActive(false);
     }
 
     void Update()

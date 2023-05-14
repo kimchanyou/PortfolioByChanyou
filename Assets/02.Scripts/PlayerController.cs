@@ -20,9 +20,15 @@ public class PlayerController : MonoBehaviour
 
     public bool isAttack = false;
     
+
     [SerializeField]
     private Define.PlayerState state = Define.PlayerState.IDLE;
 
+    [Header("GemInfo")]
+    public int id;
+    public float attack;
+    public string gemName;
+    public string spriteName;
     public Define.PlayerState State
     {
         get { return state; }
@@ -136,6 +142,7 @@ public class PlayerController : MonoBehaviour
         hpbar.value -= 0.2f;
         if (hpbar.value <= 0.001f)
         {
+
             Managers.Pool.ReturnObject(targetGem);
         }
         
@@ -144,9 +151,23 @@ public class PlayerController : MonoBehaviour
     {
         RaycastHit2D hit = Physics2D.Raycast(transform.position, dirVec.normalized, attackRange, LayerMask.GetMask("Gem"));
         if (hit.collider != null)
+        {
             targetGem = hit.collider.gameObject;
+            GemItem gem = targetGem.GetComponent<GemItem>();
+            GemInfo gemInfo = gem.dicGem[gem.gemId];
+            id = gemInfo.id;
+            attack = gemInfo.attack;
+            gemName = gemInfo.gemName;
+            spriteName = gemInfo.spriteName;
+        }
         else
+        {
+            id = 0;
+            attack = 0;
+            gemName = null;
+            spriteName = null;
             targetGem = null;
+        }
     }
     IEnumerator AttackTime(float attackTime)
     {
