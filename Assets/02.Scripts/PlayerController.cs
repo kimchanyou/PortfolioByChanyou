@@ -19,7 +19,8 @@ public class PlayerController : MonoBehaviour
     public GameObject targetGem = null;
 
     public bool isAttack = false;
-    
+
+    public GameObject gemItemInven;
 
     [SerializeField]
     private Define.PlayerState state = Define.PlayerState.IDLE;
@@ -60,6 +61,7 @@ public class PlayerController : MonoBehaviour
         spriter = GetComponent<SpriteRenderer>();
         Managers.Input.KeyAction -= OnKeyborard;
         Managers.Input.KeyAction += OnKeyborard;
+        gemItemInven = Resources.Load<GameObject>("Prefabs/02GemItem"); // 인벤토리에 들어갈 보석 프리팹 로드
     }
 
     private void Update()
@@ -142,7 +144,12 @@ public class PlayerController : MonoBehaviour
         hpbar.value -= 0.2f;
         if (hpbar.value <= 0.001f)
         {
-
+            GameObject clone = Instantiate(gemItemInven, GetItemInven());
+            GemInven gemInven = clone.GetComponent<GemInven>();
+            gemInven.id = id;
+            gemInven.attack = attack;
+            gemInven.gemName = gemName;
+            gemInven.spriteName = spriteName;
             Managers.Pool.ReturnObject(targetGem);
         }
         
@@ -167,6 +174,7 @@ public class PlayerController : MonoBehaviour
             gemName = null;
             spriteName = null;
             targetGem = null;
+            //sprite = null;
         }
     }
     IEnumerator AttackTime(float attackTime)
@@ -174,5 +182,17 @@ public class PlayerController : MonoBehaviour
         isAttack = true;
         yield return new WaitForSeconds(attackTime);
         isAttack = false;
+    }
+
+    public Transform GetItemInven()
+    {
+        for (int i = 0; i < UIManager.instance.itemLists.Length; i++)
+        {
+            if (UIManager.instance.itemLists[i].transform.childCount == 0)
+            {
+                return UIManager.instance.itemLists[i].transform;
+            }
+        }
+        return null;
     }
 }
