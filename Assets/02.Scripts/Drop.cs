@@ -11,6 +11,18 @@ public class Drop : MonoBehaviour, IDropHandler
     }
     public void OnDrop(PointerEventData eventData)
     {
-        throw new System.NotImplementedException();
+        //GameObject dropped = eventData.pointerDrag;
+        //Drag dragItem = dropped.GetComponent<Drag>();
+
+        if (transform.childCount == 0)
+        {
+            Drag.draggingItem.transform.SetParent(this.transform);
+            //dragItem.transform.SetParent(this.transform);
+            //dropped.transform.SetParent(this.transform);
+        }
+        else
+        {
+            //
+        }
     }
 }

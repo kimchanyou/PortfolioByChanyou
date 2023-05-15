@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 2604984560860313191}
   - component: {fileID: 6090357610403607134}
   - component: {fileID: 7492164046348202678}
+  - component: {fileID: 6766971129422249775}
   m_Layer: 5
   m_Name: 02GemItem
   m_TagString: Untagged
@@ -37,7 +38,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 40, y: 40}
+  m_SizeDelta: {x: 50, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1640892014308348987
 CanvasRenderer:
@@ -101,3 +102,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3cde7aa250279f4390b4d0c7c799ca1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gemImage: {fileID: 0}
+  id: 0
+  attack: 0
+  gemName: 
+  spriteName: 
+--- !u!225 &6766971129422249775
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4499819314088417083}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
