@@ -6,7 +6,7 @@ using UnityEngine.EventSystems;
 public class Drag : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler
 {
     private Transform gemItemTr;
-    private Transform origninTr;
+    public static Transform origninTr;
     private Transform inventoryTr;
     private CanvasGroup canvasGroup;
 
