@@ -4,37 +4,52 @@ using UnityEngine;
 
 public class PoolManager
 {
-    public Transform root;
-    public GameObject prefabs;
+    public Transform itemRoot;
+    public Transform attackRoot;
 
-    public Stack<GameObject> pool;
+    public GameObject gemItemPrefabs;
+    public GameObject gemAttackPrefabs;
+
+    public Stack<GameObject> itemPool;
+    public Stack<GameObject> attackPool;
 
     public void Init()
     {
-        if (root == null)
+        if (itemRoot == null)
         {
-            root = new GameObject { name = "@Pool_Root" }.transform;
-            Object.DontDestroyOnLoad(root);
+            itemRoot = new GameObject { name = "@Item_Root" }.transform;
+            Object.DontDestroyOnLoad(itemRoot);
         }
-        prefabs = Resources.Load<GameObject>("Prefabs/01Gems");
+        if (attackRoot == null)
+        {
+            attackRoot = new GameObject { name = "@Attack_Root" }.transform;
+            Object.DontDestroyOnLoad(attackRoot);
+        }
+        gemItemPrefabs = Resources.Load<GameObject>("Prefabs/01Gems");
+        gemAttackPrefabs = Resources.Load<GameObject>("Prefabs/03GemAttack");
 
-        pool = new Stack<GameObject>();
+        itemPool = new Stack<GameObject>();
+        attackPool = new Stack<GameObject>();
 
         for (int i = 0; i < 10; i++)
         {
-            CreateObject();
+            CreateObject(gemItemPrefabs, itemRoot, itemPool);
+        }
+        for (int i = 0; i < 9; i++)
+        {
+            CreateObject(gemAttackPrefabs, attackRoot, attackPool);
         }
     }
-    private GameObject CreateObject()
+    private GameObject CreateObject(GameObject prefab, Transform parent, Stack<GameObject> pool)
     {
-        GameObject newObject = Object.Instantiate(prefabs, root);
+        GameObject newObject = Object.Instantiate(prefab, parent);
         newObject.SetActive(false);
         pool.Push(newObject);
 
         return newObject;
     }
     
-    public GameObject GetObject()
+    public GameObject GetObject(Stack<GameObject> pool)
     {
         if (pool.Count > 0)
         {
@@ -49,10 +64,10 @@ public class PoolManager
             return null;
         }
     }
-    public void ReturnObject(GameObject obj)
+    public void ReturnObject(GameObject obj, Transform parent, Stack<GameObject> pool)
     {
         obj.gameObject.SetActive(false);
-        obj.transform.SetParent(root);
+        obj.transform.SetParent(parent);
         pool.Push(obj);
     }
 }

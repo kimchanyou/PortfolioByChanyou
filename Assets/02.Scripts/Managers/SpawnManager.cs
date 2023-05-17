@@ -43,7 +43,7 @@ public class SpawnManager : MonoBehaviour
     {
         isSpawn = true;
         
-        GameObject gem = Managers.Pool.GetObject();
+        GameObject gem = Managers.Pool.GetObject(Managers.Pool.itemPool);
         if (gem != null)
             gem.transform.position = spawnPoint;
 

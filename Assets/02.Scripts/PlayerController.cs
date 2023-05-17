@@ -150,7 +150,7 @@ public class PlayerController : MonoBehaviour
             gemInven.attack = attack;
             gemInven.gemName = gemName;
             gemInven.spriteName = spriteName;
-            Managers.Pool.ReturnObject(targetGem);
+            Managers.Pool.ReturnObject(targetGem, Managers.Pool.itemRoot, Managers.Pool.itemPool);
         }
         
     }

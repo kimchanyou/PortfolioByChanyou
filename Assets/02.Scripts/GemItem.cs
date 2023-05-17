@@ -5,13 +5,11 @@ using UnityEngine.UI;
 
 public class GemItem : GemStat
 {
+    public Dictionary<int, GemInfo> dicGem;
 
     public SpriteRenderer spriter;
 
-    public Dictionary<int, GemInfo> dicGem;
-
     public int gemId = 0;
-
     public int choice = 0;
 
     private void Awake()
@@ -49,22 +47,16 @@ public class GemItem : GemStat
         float total = 0;
 
         foreach (float elem in probs)
-        {
             total += elem;
-        }
 
         float randomPoint = Random.value * total;
 
         for (int i = 0; i < probs.Length; i++)
         {
             if (randomPoint < probs[i])
-            {
                 return i;
-            }
             else
-            {
                 randomPoint -= probs[i];
-            }
         }
         return probs.Length - 1;
     }
