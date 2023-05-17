@@ -7,17 +7,17 @@ public class Managers : MonoBehaviour
     static Managers s_instance; // 유일성이 보장된다.
     static Managers Instance { get { Init(); return s_instance; } } // 유일한 매니저를 갖고온다.
 
-    #region Core
     DataManager _data = new DataManager();
+    GameManager _game = new GameManager();
     InputManager _input = new InputManager();
     PoolManager _pool = new PoolManager();
     ResourceManager _resource = new ResourceManager();
 
     public static DataManager Data { get { return Instance._data; } }
+    public static GameManager Game { get { return Instance._game; } }
     public static InputManager Input { get { return Instance._input; } }
     public static PoolManager Pool { get { return Instance._pool; } }
     public static ResourceManager Resource { get { return Instance._resource; } }
-    #endregion
 
     void Start()
     {

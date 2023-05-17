@@ -51,6 +51,7 @@ public class Drop : MonoBehaviour, IDropHandler
                     originGem.spriteName = gemInfo.spriteName;
                     Sprite sprite = Resources.Load<Sprite>($"Textures/{originGem.spriteName}");
                     originGem.gemImage.sprite = sprite;
+                    originGem.levelText.text = "LV " + (originGem.id + 1);
                     Destroy(draggingGem.gameObject);
                 }
             }
