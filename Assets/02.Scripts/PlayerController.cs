@@ -186,11 +186,11 @@ public class PlayerController : MonoBehaviour
 
     public Transform GetItemInven()
     {
-        for (int i = 0; i < UIManager.instance.itemLists.Length; i++)
+        for (int i = 0; i < UIManager.instance.itemInvenLists.Length; i++)
         {
-            if (UIManager.instance.itemLists[i].transform.childCount == 0)
+            if (UIManager.instance.itemInvenLists[i].transform.childCount == 0)
             {
-                return UIManager.instance.itemLists[i].transform;
+                return UIManager.instance.itemInvenLists[i].transform;
             }
         }
         return null;
