@@ -1,0 +1,71 @@
+{
+  "gemData": [
+    {
+      "id": "0",
+      "attack": "10",
+      "gemName": "Aquamarin",
+      "spriteName": "Aquamarin"
+    },
+    {
+      "id": "1",
+      "attack": "20",
+      "gemName": "Blue",
+      "spriteName": "Blue"
+    },
+    {
+      "id": "2",
+      "attack": "30",
+      "gemName": "Brown",
+      "spriteName": "Brown"
+    },
+    {
+      "id": "3",
+      "attack": "40",
+      "gemName": "Dark_Blue",
+      "spriteName": "Dark_Blue"
+    },
+    {
+      "id": "4",
+      "attack": "50",
+      "gemName": "Emerald",
+      "spriteName": "Emerald"
+    },
+    {
+      "id": "5",
+      "attack": "60",
+      "gemName": "Green",
+      "spriteName": "Green"
+    },
+    {
+      "id": "6",
+      "attack": "70",
+      "gemName": "Lilac",
+      "spriteName": "Lilac"
+    },
+    {
+      "id": "7",
+      "attack": "80",
+      "gemName": "Orange",
+      "spriteName": "Orange"
+    },
+    {
+      "id": "8",
+      "attack": "90",
+      "gemName": "Purple",
+      "spriteName": "Purple"
+    },
+    {
+      "id": "9",
+      "attack": "100",
+      "gemName": "Red",
+      "spriteName": "Red"
+    },
+    {
+      "id": "10",
+      "attack": "110",
+      "gemName": "Yellow",
+      "spriteName": "Yellow"
+    }
+  ]
+}
+
