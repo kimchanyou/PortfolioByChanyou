@@ -11,6 +11,13 @@ public class Define
         ATTACK,
         DIE,
     }
+    public enum MouseEvent
+    {
+        Press,
+        PointerDown,
+        PointerUp,
+        Click,
+    }
     public enum GemGrade
     {
 

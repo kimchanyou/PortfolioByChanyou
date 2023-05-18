@@ -5,22 +5,26 @@ using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
 {
-    public float attackTime = 0.5f; // 공격 쿨타임
-    public float attackRange = 1.5f;// 공격 사정거리
+    public float attackTime = 0.5f;     // 공격 쿨타임
+    public float attackRange = 1.5f;    // 공격 사정거리
 
     public Vector2 inputVec;
-    public Vector2 dirVec;          // 바라보는 방향
+    public Vector2 dirVec;              // 바라보는 방향
     [SerializeField]
-    private float moveSpeed = 5f;   // 이동 속도
+    private float moveSpeed = 5f;       // 이동 속도
+    public float ditectionRange = 4f;   // 보석 공격 사정거리
 
     public Rigidbody2D rigid;
     public SpriteRenderer spriter;
+    public Camera mainCam;
 
     public GameObject targetGem = null;
+    public GameObject gemItemInven;
+    public GameObject guideLine;
+
+    public Attackable[] attackables;
 
     public bool isAttack = false;
-
-    public GameObject gemItemInven;
 
     [SerializeField]
     private Define.PlayerState state = Define.PlayerState.IDLE;
@@ -59,9 +63,14 @@ public class PlayerController : MonoBehaviour
     {
         rigid = GetComponent<Rigidbody2D>();
         spriter = GetComponent<SpriteRenderer>();
+        mainCam = Camera.main;
+        attackables = UIManager.instance.attackables;
         Managers.Input.KeyAction -= OnKeyborard;
         Managers.Input.KeyAction += OnKeyborard;
+        Managers.Input.MounseAction -= OnMouseEvent;
+        Managers.Input.MounseAction += OnMouseEvent;
         gemItemInven = Resources.Load<GameObject>("Prefabs/02GemItem"); // 인벤토리에 들어갈 보석 프리팹 로드
+        guideLine = transform.GetChild(0).gameObject;
     }
 
     private void Update()
@@ -82,6 +91,7 @@ public class PlayerController : MonoBehaviour
                 break;
         }
         TargetFind();
+        MouseCheck();
     }
     
     void LateUpdate()
@@ -103,8 +113,21 @@ public class PlayerController : MonoBehaviour
         rigid.MovePosition(rigid.position + nextVec);
 
         Debug.DrawRay(transform.position, dirVec * attackRange, Color.green);
+        
     }
-    
+    private void OnMouseEvent(Define.MouseEvent evt)
+    {
+        switch (State)
+        {
+            case Define.PlayerState.IDLE:
+                break;
+            case Define.PlayerState.WALK:
+                break;
+            case Define.PlayerState.ATTACK:
+                break;
+        }
+    }
+
     public void UpdateDie()
     {
         // 부활 할건지 물어보는 팝업 창 뜨게?
@@ -154,7 +177,7 @@ public class PlayerController : MonoBehaviour
         }
         
     }
-    public void TargetFind()
+    private void TargetFind()
     {
         RaycastHit2D hit = Physics2D.Raycast(transform.position, dirVec.normalized, attackRange, LayerMask.GetMask("Gem"));
         if (hit.collider != null)
@@ -184,7 +207,7 @@ public class PlayerController : MonoBehaviour
         isAttack = false;
     }
 
-    public Transform GetItemInven()
+    private Transform GetItemInven()
     {
         for (int i = 0; i < UIManager.instance.itemInvenLists.Length; i++)
         {
@@ -194,5 +217,20 @@ public class PlayerController : MonoBehaviour
             }
         }
         return null;
+    }
+
+    private void MouseCheck()
+    {
+        Vector2 mousePos = Input.mousePosition;
+        // 현재 마우스의 위치를 게임내의 Position 값으로 변환
+        mousePos = mainCam.ScreenToWorldPoint(mousePos);
+
+        Vector3 playerPos = transform.position;
+
+        Vector2 distanceVec = mousePos - (Vector2)playerPos;
+
+        guideLine.SetActive(distanceVec.magnitude < ditectionRange ? true : false);
+
+        guideLine.transform.right = distanceVec.normalized;
     }
 }
