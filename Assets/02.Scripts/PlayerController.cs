@@ -131,7 +131,6 @@ public class PlayerController : MonoBehaviour
     public void UpdateDie()
     {
         // 부활 할건지 물어보는 팝업 창 뜨게?
-
     }
     public void UpdateIdle()
     {
