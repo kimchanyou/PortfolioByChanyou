@@ -5,49 +5,68 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ToolTipManager
+public class ToolTipManager : MonoBehaviour
 {
-    public TextMeshProUGUI titleText;
-    public TextMeshProUGUI tipText;
-    public TextMeshProUGUI countText;
+    public static ToolTipManager instance;
+
     public Image itemImage;
+    public TextMeshProUGUI levelText;
+    public TextMeshProUGUI attackText;
+    public TextMeshProUGUI tipText;
 
     public RectTransform tipWindow;
 
-    public static Action<string, string, string, Sprite, Vector2> OnMouseHover;
+    public static Action<string, string, string, Sprite, Vector2> OnMouseTip;
     public static Action OnMouseLoseFocus;
 
+    private void Awake()
+    {
+        //if (instance == null)
+        //{
+        //    instance = this;
+
+        //    DontDestroyOnLoad(this.gameObject);
+        //}
+        //else
+        //{
+        //    Destroy(this.gameObject);
+        //}
+    }
+    private void Start()
+    {
+        tipWindow = transform.GetChild(1).GetComponent<RectTransform>();
+        itemImage = tipWindow.GetChild(0).GetComponent<Image>();
+        levelText = tipWindow.GetChild(1).GetComponent<TextMeshProUGUI>();
+        attackText = tipWindow.GetChild(2).GetComponent<TextMeshProUGUI>();
+        tipText = tipWindow.GetChild(3).GetComponent<TextMeshProUGUI>();
+        HideTip();
+    }
     private void OnEnable()
     {
-        OnMouseHover += ShowTip;
+        OnMouseTip += ShowTip;
         OnMouseLoseFocus += HideTip;
     }
     private void OnDisable()
     {
-        OnMouseHover -= ShowTip;
+        OnMouseTip -= ShowTip;
         OnMouseLoseFocus -= HideTip;
     }
-    public void Init()
+    private void ShowTip(string level, string attack, string tip, Sprite item, Vector2 pos)
     {
-        HideTip();
-    }
-    private void ShowTip(string title, string tip, string count, Sprite item, Vector2 mousePos)
-    {
-        titleText.text = title;
+        levelText.text = level;
+        attackText.text = attack;
         tipText.text = tip;
-        countText.text = count;
         itemImage.sprite = item;
-        tipWindow.sizeDelta = new Vector2(650, 250);
+        tipWindow.sizeDelta = new Vector2(350, 250);
 
         tipWindow.gameObject.SetActive(true);
-        //tipWindow.transform.position = new Vector2(mousePos.x + tipWindow.sizeDelta.x, mousePos.y - tipWindow.sizeDelta.y * 2);
-        tipWindow.transform.position = new Vector2(mousePos.x + 30, mousePos.y - 30);
+        tipWindow.transform.position = new Vector2(pos.x - 20, pos.y + 20);
     }
     private void HideTip()
     {
-        titleText.text = default;
+        levelText.text = default;
+        attackText.text = default;
         tipText.text = default;
-        countText.text = default;
         itemImage.sprite = default;
         tipWindow.gameObject.SetActive(false);
     }

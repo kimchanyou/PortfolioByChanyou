@@ -10,7 +10,6 @@ public class GemInven : MonoBehaviour
     public Dictionary<int, GemInfo> dicGem;
 
     public Image gemImage;
-    public TextMeshProUGUI levelText;
 
     [Header("GemInfo")]
     public int id;
@@ -23,8 +22,6 @@ public class GemInven : MonoBehaviour
         dicGem = Managers.Data.dicGemData;
         gemImage = GetComponent<Image>();
         gemImage.sprite = Resources.Load<Sprite>($"Textures/{spriteName}");
-        levelText = GetComponentInChildren<TextMeshProUGUI>();
-        levelText.text = "LV " + (id + 1);
     }
 
     void Update()

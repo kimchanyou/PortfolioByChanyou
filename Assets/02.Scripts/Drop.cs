@@ -24,6 +24,7 @@ public class Drop : MonoBehaviour, IDropHandler
         {
             GemInven originGem = transform.GetChild(0).GetComponent<GemInven>();
             GemInven draggingGem = eventData.pointerDrag.transform.GetComponent<GemInven>();
+            ToolTip originTool = transform.GetChild(0).GetComponent<ToolTip>();
             if (originGem == null || draggingGem == null)
             {
                 Debug.Log("비교대상 없음");
@@ -51,7 +52,10 @@ public class Drop : MonoBehaviour, IDropHandler
                     originGem.spriteName = gemInfo.spriteName;
                     Sprite sprite = Resources.Load<Sprite>($"Textures/{originGem.spriteName}");
                     originGem.gemImage.sprite = sprite;
-                    originGem.levelText.text = "LV " + (originGem.id + 1);
+                    originTool.levelText = "레벨 : " + (originGem.id + 1).ToString();
+                    originTool.attackText = "공격력 : " + originGem.attack.ToString();
+                    originTool.tipText = originGem.gemName;
+                    originTool.itemToShow = originGem.gemImage.sprite;
                     Destroy(draggingGem.gameObject);
                 }
             }

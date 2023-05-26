@@ -5,15 +5,18 @@ using UnityEngine.EventSystems;
 
 public class ToolTip : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
-    public string titleToShow;
-    public string tipToShow;
-    public string countToShow;
-    public int itemCount;
+    public string levelText;
+    public string attackText;
+    public string tipText;
     public Sprite itemToShow;
     private float timeToWait = 0.5f;
+
     void Start()
     {
-        
+        levelText = "레벨 : " + (GetComponent<GemInven>().id + 1).ToString();
+        attackText = "공격력 : " + GetComponent<GemInven>().attack.ToString();
+        tipText = GetComponent<GemInven>().gemName;
+        itemToShow = GetComponent<GemInven>().gemImage.sprite;
     }
 
     void Update()
@@ -30,11 +33,11 @@ public class ToolTip : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     public void OnPointerExit(PointerEventData eventData)
     {
         StopAllCoroutines();
-        HoverTipManager.OnMouseLoseFocus();
+        ToolTipManager.OnMouseLoseFocus();
     }
     private void ShowMessage()
     {
-        HoverTipManager.OnMouseHover(titleToShow, tipToShow, countToShow, itemToShow, Input.mousePosition);
+        ToolTipManager.OnMouseTip(levelText, attackText, tipText, itemToShow, transform.position);
     }
     private IEnumerator StartTimer()
     {
