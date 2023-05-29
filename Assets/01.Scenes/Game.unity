@@ -15988,7 +15988,7 @@ MonoBehaviour:
   inputVec: {x: 0, y: 0}
   dirVec: {x: 0, y: 0}
   moveSpeed: 5
-  ditectionRange: 4
+  ditectionRange: 10
   rigid: {fileID: 0}
   spriter: {fileID: 0}
   mainCam: {fileID: 0}

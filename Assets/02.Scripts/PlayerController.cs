@@ -12,7 +12,7 @@ public class PlayerController : MonoBehaviour
     public Vector2 dirVec;              // 바라보는 방향
     [SerializeField]
     private float moveSpeed = 5f;       // 이동 속도
-    public float ditectionRange = 4f;   // 보석 공격 사정거리
+    public float ditectionRange = 10f;   // 가이드라인 생성 조건 거리
 
     public Rigidbody2D rigid;
     public SpriteRenderer spriter;
