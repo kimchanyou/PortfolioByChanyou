@@ -231,5 +231,22 @@ public class PlayerController : MonoBehaviour
         guideLine.SetActive(distanceVec.magnitude < ditectionRange ? true : false);
 
         guideLine.transform.right = distanceVec.normalized;
+
+        if (Input.GetMouseButtonDown(0))
+        {
+            GameObject attackGem = Managers.Pool.GetObject(Managers.Pool.attackPool);
+            attackGem.transform.position = transform.position + (Vector3)distanceVec.normalized;
+            //attackGem.transform.right = distanceVec.normalized;
+            attackGem.GetComponent<Rigidbody2D>().AddForce(distanceVec.normalized * 1000f);
+            //FindAttackable();
+        }
+    }
+
+    private GameObject FindAttackable()
+    {
+        GameObject attackGem = Managers.Pool.GetObject(Managers.Pool.attackPool);
+        attackGem.transform.position = transform.position;
+        //attackGem.transform.right = distanceVec.normalized;
+        return attackGem;
     }
 }

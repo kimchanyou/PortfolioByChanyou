@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class GemAttack : MonoBehaviour
 {
+    private float attackSpeed = 100f;
+
+    private Rigidbody2D rbody2D;
+
     public Dictionary<int, GemInfo> dicGem;
 
     public SpriteRenderer spriter;
@@ -16,12 +20,14 @@ public class GemAttack : MonoBehaviour
 
     void Awake()
     {
+        rbody2D = GetComponent<Rigidbody2D>();
         spriter = GetComponent<SpriteRenderer>();
     }
     private void OnEnable()
     {
-        dicGem = Managers.Data.dicGemData;
+        //dicGem = Managers.Data.dicGemData;
 
+        //rbody2D.AddForce(transform.right * attackSpeed);
 
     }
     private void OnDisable()
