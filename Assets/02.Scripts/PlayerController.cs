@@ -10,6 +10,9 @@ public class PlayerController : MonoBehaviour
 
     public Vector2 inputVec;
     public Vector2 dirVec;              // 바라보는 방향
+
+    public static Vector2 attackVec;
+
     [SerializeField]
     private float moveSpeed = 5f;       // 이동 속도
     public float ditectionRange = 10f;   // 가이드라인 생성 조건 거리
@@ -23,6 +26,7 @@ public class PlayerController : MonoBehaviour
     public GameObject guideLine;
 
     public Attackable[] attackables;
+    public List<GemInven> attackableGems = new List<GemInven>();
 
     public bool isAttack = false;
 
@@ -234,19 +238,24 @@ public class PlayerController : MonoBehaviour
 
         if (Input.GetMouseButtonDown(0))
         {
+            AttackableGem();
+            if (attackableGems.Count == 0) return;
+            attackVec = distanceVec;
             GameObject attackGem = Managers.Pool.GetObject(Managers.Pool.attackPool);
             attackGem.transform.position = transform.position + (Vector3)distanceVec.normalized;
-            //attackGem.transform.right = distanceVec.normalized;
             attackGem.GetComponent<Rigidbody2D>().AddForce(distanceVec.normalized * 1000f);
-            //FindAttackable();
+            
         }
     }
 
-    private GameObject FindAttackable()
+    private void AttackableGem()
     {
-        GameObject attackGem = Managers.Pool.GetObject(Managers.Pool.attackPool);
-        attackGem.transform.position = transform.position;
-        //attackGem.transform.right = distanceVec.normalized;
-        return attackGem;
+        for (int i = 0; i < attackables.Length; i++)
+        {
+            if (attackables[i].transform.childCount != 0)
+            {
+                attackableGems.Add(attackables[i].transform.GetChild(0).gameObject.GetComponent<GemInven>());
+            }
+        }
     }
 }

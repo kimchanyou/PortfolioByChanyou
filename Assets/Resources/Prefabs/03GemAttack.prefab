@@ -123,7 +123,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 23d1089b35725cb4eb03e0fe8febba0f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackSpeed: 5
   spriter: {fileID: 0}
   id: 0
   attack: 0

@@ -335,7 +335,7 @@ GameObject:
   - component: {fileID: 3484994771410339440}
   m_Layer: 8
   m_Name: 01Gems
-  m_TagString: Untagged
+  m_TagString: Gem
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -446,9 +446,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 0
   attack: 0
-  name: 
+  gemName: 
   spriteName: 
   spriter: {fileID: 0}
+  gemId: 0
+  choice: 0
 --- !u!1 &8636538004618712404
 GameObject:
   m_ObjectHideFlags: 0
