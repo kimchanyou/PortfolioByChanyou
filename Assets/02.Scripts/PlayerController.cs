@@ -26,7 +26,6 @@ public class PlayerController : MonoBehaviour
     public GameObject guideLine;
 
     public Attackable[] attackables;
-    public List<GemInven> attackableGems = new List<GemInven>();
 
     public bool isAttack = false;
 
@@ -238,24 +237,25 @@ public class PlayerController : MonoBehaviour
 
         if (Input.GetMouseButtonDown(0))
         {
-            AttackableGem();
-            if (attackableGems.Count == 0) return;
-            attackVec = distanceVec;
-            GameObject attackGem = Managers.Pool.GetObject(Managers.Pool.attackPool);
-            attackGem.transform.position = transform.position + (Vector3)distanceVec.normalized;
-            attackGem.GetComponent<Rigidbody2D>().AddForce(distanceVec.normalized * 1000f);
-            
-        }
-    }
-
-    private void AttackableGem()
-    {
-        for (int i = 0; i < attackables.Length; i++)
-        {
-            if (attackables[i].transform.childCount != 0)
+            for (int i = 0; i < attackables.Length; i++)
             {
-                attackableGems.Add(attackables[i].transform.GetChild(0).gameObject.GetComponent<GemInven>());
+                //if (attackables[i].transform.childCount == 0) continue;
+                if (attackables[i].transform.childCount != 0)
+                {
+                    GemInven gemInven = attackables[i].transform.GetChild(0).gameObject.GetComponent<GemInven>();
+                    if (gemInven.isAttack == true)
+                    {
+                        gemInven.isAttack = false;
+                        attackVec = distanceVec;
+                        GameObject attackGem = Managers.Pool.GetObject(Managers.Pool.attackPool);
+                        if (attackGem == null) return;
+                        attackGem.transform.position = transform.position + (Vector3)distanceVec.normalized;
+                        attackGem.GetComponent<Rigidbody2D>().AddForce(distanceVec.normalized * 1000f);
+                    }
+                }
             }
+            
+            
         }
     }
 }

@@ -17,6 +17,8 @@ public class GemInven : MonoBehaviour
     public string gemName;
     public string spriteName;
 
+    public bool isAttack = true;
+
     void Start()
     {
         dicGem = Managers.Data.dicGemData;
@@ -26,6 +28,14 @@ public class GemInven : MonoBehaviour
 
     void Update()
     {
-        
+        if (!isAttack)
+        {
+            StartCoroutine(IsAttackTrue());
+        }
+    }
+    IEnumerator IsAttackTrue()
+    {
+        yield return new WaitForSeconds(3f);
+        isAttack = true;
     }
 }
