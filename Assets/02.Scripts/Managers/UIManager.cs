@@ -11,7 +11,6 @@ public class UIManager : MonoBehaviour
     public GameObject inventory;
     public Drop[] itemInvenLists;
     public GemInven[] itemLists;
-    public Attackable[] attackables;
     public GameObject temp;
 
     public bool isOpen = false;
@@ -28,7 +27,6 @@ public class UIManager : MonoBehaviour
         {
             Destroy(this.gameObject);
         }
-        attackables = GetComponentsInChildren<Attackable>();
     }
     void Start()
     {

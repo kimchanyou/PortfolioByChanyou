@@ -74,7 +74,7 @@ public class GemAttack : MonoBehaviour
     IEnumerator GemCol()
     {
         rbody2D.velocity = Vector2.zero;
-        rbody2D.AddForce(PlayerController.attackVec.normalized * 200f);
+        rbody2D.AddForce(PlayerController.attackVec.normalized * 150f);
 
         yield return new WaitForSeconds(0.5f);
 

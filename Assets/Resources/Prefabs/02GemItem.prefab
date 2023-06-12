@@ -104,11 +104,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gemImage: {fileID: 0}
-  levelText: {fileID: 0}
   id: 0
   attack: 0
   gemName: 
   spriteName: 
+  isAttack: 1
 --- !u!225 &6766971129422249775
 CanvasGroup:
   m_ObjectHideFlags: 0

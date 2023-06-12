@@ -5,9 +5,11 @@ using UnityEngine.EventSystems;
 
 public class Drop : MonoBehaviour, IDropHandler
 {
+    private RectTransform parentRect;
+
     void Start()
     {
-        
+        parentRect = GetComponent<RectTransform>();
     }
     public void OnDrop(PointerEventData eventData)
     {
@@ -17,6 +19,7 @@ public class Drop : MonoBehaviour, IDropHandler
         if (transform.childCount == 0)
         {
             Drag.draggingItem.transform.SetParent(this.transform);
+            Drag.draggingItem.GetComponent<RectTransform>().sizeDelta = parentRect.sizeDelta;
             //dragItem.transform.SetParent(this.transform);
             //dropped.transform.SetParent(this.transform);
         }

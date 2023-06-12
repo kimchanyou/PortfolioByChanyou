@@ -25,7 +25,7 @@ public class PlayerController : MonoBehaviour
     public GameObject gemItemInven;
     public GameObject guideLine;
 
-    public Attackable[] attackables;
+    public List<GemInven> gemInvens = new List<GemInven>();
 
     public bool isAttack = false;
 
@@ -67,7 +67,6 @@ public class PlayerController : MonoBehaviour
         rigid = GetComponent<Rigidbody2D>();
         spriter = GetComponent<SpriteRenderer>();
         mainCam = Camera.main;
-        attackables = UIManager.instance.attackables;
         Managers.Input.KeyAction -= OnKeyborard;
         Managers.Input.KeyAction += OnKeyborard;
         Managers.Input.MounseAction -= OnMouseEvent;
@@ -94,7 +93,7 @@ public class PlayerController : MonoBehaviour
                 break;
         }
         TargetFind();
-        MouseCheck();
+        MouseAttack();
     }
     
     void LateUpdate()
@@ -137,14 +136,14 @@ public class PlayerController : MonoBehaviour
     }
     public void UpdateIdle()
     {
-        if (!isAttack && Input.GetKeyDown(KeyCode.Space))
+        if (!isAttack && Input.GetMouseButtonDown(0))
             State = Define.PlayerState.ATTACK;
         if (inputVec.magnitude != 0)
             State = Define.PlayerState.WALK;
     }
     public void UpdateWalk()
     {
-        if (!isAttack && Input.GetKeyDown(KeyCode.Space))
+        if (!isAttack && Input.GetMouseButtonDown(0))
             State = Define.PlayerState.ATTACK;
         if (Input.GetButton("Horizontal") == false && Input.GetButton("Vertical") == false)
         {
@@ -177,14 +176,37 @@ public class PlayerController : MonoBehaviour
             gemInven.spriteName = spriteName;
             Managers.Pool.ReturnObject(targetGem, Managers.Pool.itemRoot, Managers.Pool.itemPool);
         }
-        
+
     }
+    #region RaycastHit 방식 TargetFind
+    //private void TargetFind()
+    //{
+    //    RaycastHit2D hit = Physics2D.Raycast(transform.position, dirVec.normalized, attackRange, LayerMask.GetMask("Gem"));
+    //    if (hit.collider != null)
+    //    {
+    //        targetGem = hit.collider.gameObject;
+    //        GemItem gem = targetGem.GetComponent<GemItem>();
+    //        GemInfo gemInfo = gem.dicGem[gem.gemId];
+    //        id = gemInfo.id;
+    //        attack = gemInfo.attack;
+    //        gemName = gemInfo.gemName;
+    //        spriteName = gemInfo.spriteName;
+    //    }
+    //    else
+    //    {
+    //        id = 0;
+    //        attack = 0;
+    //        gemName = null;
+    //        spriteName = null;
+    //        targetGem = null;
+    //    }
+    //}
+    #endregion
     private void TargetFind()
     {
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, dirVec.normalized, attackRange, LayerMask.GetMask("Gem"));
-        if (hit.collider != null)
+        targetGem = FindTarget.targetGem;
+        if (targetGem != null)
         {
-            targetGem = hit.collider.gameObject;
             GemItem gem = targetGem.GetComponent<GemItem>();
             GemInfo gemInfo = gem.dicGem[gem.gemId];
             id = gemInfo.id;
@@ -198,10 +220,9 @@ public class PlayerController : MonoBehaviour
             attack = 0;
             gemName = null;
             spriteName = null;
-            targetGem = null;
-            //sprite = null;
         }
     }
+
     IEnumerator AttackTime(float attackTime)
     {
         isAttack = true;
@@ -221,7 +242,7 @@ public class PlayerController : MonoBehaviour
         return null;
     }
 
-    private void MouseCheck()
+    private void MouseAttack()
     {
         Vector2 mousePos = Input.mousePosition;
         // 현재 마우스의 위치를 게임내의 Position 값으로 변환
@@ -237,25 +258,22 @@ public class PlayerController : MonoBehaviour
 
         if (Input.GetMouseButtonDown(0))
         {
-            for (int i = 0; i < attackables.Length; i++)
-            {
-                //if (attackables[i].transform.childCount == 0) continue;
-                if (attackables[i].transform.childCount != 0)
-                {
-                    GemInven gemInven = attackables[i].transform.GetChild(0).gameObject.GetComponent<GemInven>();
-                    if (gemInven.isAttack == true)
-                    {
-                        gemInven.isAttack = false;
-                        attackVec = distanceVec;
-                        GameObject attackGem = Managers.Pool.GetObject(Managers.Pool.attackPool);
-                        if (attackGem == null) return;
-                        attackGem.transform.position = transform.position + (Vector3)distanceVec.normalized;
-                        attackGem.GetComponent<Rigidbody2D>().AddForce(distanceVec.normalized * 1000f);
-                    }
-                }
-            }
-            
-            
+            //for (int i = 0; i < attackables.Length; i++)
+            //{
+            //    //if (attackables[i].transform.childCount != 0)
+            //    //{
+            //    //    GemInven gemInven = attackables[i].transform.GetChild(0).gameObject.GetComponent<GemInven>();
+            //    //    if (gemInven.isAttack == true)
+            //    //    {
+            //    //        gemInven.isAttack = false;
+            //    //        attackVec = distanceVec;
+            //    //        GameObject attackGem = Managers.Pool.GetObject(Managers.Pool.attackPool);
+            //    //        if (attackGem == null) return;
+            //    //        attackGem.transform.position = transform.position + (Vector3)distanceVec.normalized;
+            //    //        attackGem.GetComponent<Rigidbody2D>().AddForce(distanceVec.normalized * 1000f);
+            //    //    }
+            //    //}
+            //}
         }
     }
 }
