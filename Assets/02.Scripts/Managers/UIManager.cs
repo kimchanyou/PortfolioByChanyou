@@ -58,24 +58,7 @@ public class UIManager : MonoBehaviour
         // 전체 보석을 검사해서 비교 후 sort정렬하기
         itemLists = GetComponentsInChildren<GemInven>();
         if (itemLists == null) return;
-        //for (int i = 0; i < itemLists.Length - 1; i++)
-        //{
-        //    for (int j = 0; j < itemLists.Length - i - 1; j++)
-        //    {
-        //        if (itemLists[j].id < itemLists[(j + 1)].id)
-        //        {
-        //            temp.transform.SetParent(itemLists[j].transform.parent);
-        //            itemLists[j].transform.SetParent(itemLists[(j + 1)].transform.parent);
-        //            itemLists[(j + 1)].transform.SetParent(temp.transform.parent);
-        //            itemLists[j].transform.localPosition = Vector3.zero;
-        //            itemLists[(j + 1)].transform.localPosition = Vector3.zero;
-        //            temp.transform.parent = null;
-        //            GemInven gemTemp = itemLists[j];
-        //            itemLists[j] = itemLists[(j + 1)];
-        //            itemLists[(j + 1)] = gemTemp;
-        //        }
-        //    }
-        //}
+        
         for (int i = 0; i < itemLists.Length - 1; i++)
         {
             for (int j = i + 1; j < itemLists.Length; j++)

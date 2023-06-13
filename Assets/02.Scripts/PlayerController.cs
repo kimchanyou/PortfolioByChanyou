@@ -12,6 +12,7 @@ public class PlayerController : MonoBehaviour
     public Vector2 dirVec;              // 바라보는 방향
 
     public static Vector2 attackVec;
+    public static string attackSpriteName;
 
     [SerializeField]
     private float moveSpeed = 5f;       // 이동 속도
@@ -25,7 +26,7 @@ public class PlayerController : MonoBehaviour
     public GameObject gemItemInven;
     public GameObject guideLine;
 
-    public List<GemInven> gemInvens = new List<GemInven>();
+    public GemInven[] attackable;
 
     public bool isAttack = false;
 
@@ -94,6 +95,7 @@ public class PlayerController : MonoBehaviour
         }
         TargetFind();
         MouseAttack();
+        attackable = GameObject.Find("Attack").GetComponentsInChildren<GemInven>();
     }
     
     void LateUpdate()
@@ -258,22 +260,21 @@ public class PlayerController : MonoBehaviour
 
         if (Input.GetMouseButtonDown(0))
         {
-            //for (int i = 0; i < attackables.Length; i++)
-            //{
-            //    //if (attackables[i].transform.childCount != 0)
-            //    //{
-            //    //    GemInven gemInven = attackables[i].transform.GetChild(0).gameObject.GetComponent<GemInven>();
-            //    //    if (gemInven.isAttack == true)
-            //    //    {
-            //    //        gemInven.isAttack = false;
-            //    //        attackVec = distanceVec;
-            //    //        GameObject attackGem = Managers.Pool.GetObject(Managers.Pool.attackPool);
-            //    //        if (attackGem == null) return;
-            //    //        attackGem.transform.position = transform.position + (Vector3)distanceVec.normalized;
-            //    //        attackGem.GetComponent<Rigidbody2D>().AddForce(distanceVec.normalized * 1000f);
-            //    //    }
-            //    //}
-            //}
+            for (int i = 0; i < attackable.Length; i++)
+            {
+                if (attackable[i].isCool == false)
+                {
+                    attackable[i].isCool = true;
+                    attackSpriteName = attackable[i].spriteName;
+                    attackVec = distanceVec;
+                    GameObject attackGem = Managers.Pool.GetObject(Managers.Pool.attackPool);
+                    if (attackGem == null) return;
+                    //attackGem.GetComponent<GemAttack>().spriteName = attackable[i].spriteName;
+                    attackGem.transform.position = transform.position + (Vector3)distanceVec.normalized;
+                    attackGem.GetComponent<Rigidbody2D>().AddForce(distanceVec.normalized * 1000f);
+                    break;
+                }
+            }
         }
     }
 }

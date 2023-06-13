@@ -28,13 +28,18 @@ public class GemAttack : MonoBehaviour
     }
     private void OnEnable()
     {
+        spriteName = PlayerController.attackSpriteName;
+        spriter.sprite = Resources.Load<Sprite>($"Textures/{spriteName}");
         StartCoroutine(GemNotCol());
-
     }
     private void OnDisable()
     {
         rbody2D.velocity = Vector2.zero;
         targetGem = null;
+        //id = 0;
+        //attack = 0;
+        //gemName = null;
+        spriteName = null;
     }
 
     private void OnTriggerEnter2D(Collider2D col)
@@ -74,7 +79,7 @@ public class GemAttack : MonoBehaviour
     IEnumerator GemCol()
     {
         rbody2D.velocity = Vector2.zero;
-        rbody2D.AddForce(PlayerController.attackVec.normalized * 150f);
+        rbody2D.AddForce(PlayerController.attackVec.normalized * 100f);
 
         yield return new WaitForSeconds(0.5f);
 

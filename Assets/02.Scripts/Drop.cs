@@ -38,8 +38,10 @@ public class Drop : MonoBehaviour, IDropHandler
                 if (originGem.id != draggingGem.id) // 보석의 레벨이 서로 다르면 위치만 바뀜
                 {
                     originGem.transform.SetParent(Drag.origninTr);
+                    originGem.GetComponent<RectTransform>().sizeDelta = Drag.origninTr.GetComponent<RectTransform>().sizeDelta;
                     originGem.transform.localPosition = Vector3.zero;
                     draggingGem.transform.SetParent(this.transform);
+                    draggingGem.GetComponent<RectTransform>().sizeDelta = parentRect.sizeDelta;
                 }
                 else // 보석의 레벨이 같고 최대레벨이 아니면 합쳐지면서 보석의 레벨이 올라가고 정보가 갱신됨
                 {
