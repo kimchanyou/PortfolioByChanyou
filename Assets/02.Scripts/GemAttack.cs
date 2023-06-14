@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class GemAttack : MonoBehaviour
 {
     private Rigidbody2D rbody2D;
+    private BoxCollider2D boxCol2D;
 
     public Dictionary<int, GemInfo> dicGem;
 
@@ -23,11 +24,13 @@ public class GemAttack : MonoBehaviour
     void Awake()
     {
         rbody2D = GetComponent<Rigidbody2D>();
+        boxCol2D = GetComponent<BoxCollider2D>();
         spriter = GetComponent<SpriteRenderer>();
         gemItemInven = Resources.Load<GameObject>("Prefabs/02GemItem"); // 인벤토리에 들어갈 보석 프리팹 로드
     }
     private void OnEnable()
     {
+        boxCol2D.enabled = true;
         spriteName = PlayerController.attackSpriteName;
         spriter.sprite = Resources.Load<Sprite>($"Textures/{spriteName}");
         StartCoroutine(GemNotCol());
@@ -46,6 +49,7 @@ public class GemAttack : MonoBehaviour
     {
         if (col.CompareTag("Gem"))
         {
+            boxCol2D.enabled = false;
             targetGem = col.gameObject;
             Slider hpbar = targetGem.GetComponentInChildren<Slider>();
             hpbar.value -= 0.2f;

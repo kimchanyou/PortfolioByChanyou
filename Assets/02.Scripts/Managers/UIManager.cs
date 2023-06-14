@@ -10,6 +10,7 @@ public class UIManager : MonoBehaviour
     public GameObject canvasUI;
     public GameObject inventory;
     public Drop[] itemInvenLists;
+    public Drop[] itemWeaponLists;
     public GemInven[] itemLists;
     public GameObject temp;
 
@@ -94,6 +95,47 @@ public class UIManager : MonoBehaviour
                         trimGem.transform.localPosition = Vector3.zero;
                         break;
                     }
+                }
+            }
+        }
+    }
+    public void SortWeapon()
+    {
+        for (int i = 0; i < itemWeaponLists.Length; i++)
+        {
+            if (itemWeaponLists[i].transform.childCount == 0)
+            {
+                for (int j = i; j < itemWeaponLists.Length; j++)
+                {
+                    if (itemWeaponLists[j].transform.childCount != 0)
+                    {
+                        GameObject trimGem = itemWeaponLists[j].transform.GetChild(0).gameObject;
+                        trimGem.transform.SetParent(itemWeaponLists[i].transform);
+                        trimGem.transform.localPosition = Vector3.zero;
+                        break;
+                    }
+                }
+            }
+        }
+
+        itemLists = GameObject.Find("Attack").GetComponentsInChildren<GemInven>();
+        if (itemLists == null) return;
+
+        for (int i = 0; i < itemLists.Length - 1; i++)
+        {
+            for (int j = i + 1; j < itemLists.Length; j++)
+            {
+                if (itemLists[i].id < itemLists[j].id)
+                {
+                    temp.transform.SetParent(itemLists[i].transform.parent, false);
+                    itemLists[i].transform.SetParent(itemLists[j].transform.parent, false);
+                    itemLists[j].transform.SetParent(temp.transform.parent, false);
+                    itemLists[i].transform.localPosition = Vector3.zero;
+                    itemLists[j].transform.localPosition = Vector3.zero;
+                    GemInven gemTemp = itemLists[i];
+                    itemLists[i] = itemLists[j];
+                    itemLists[j] = gemTemp;
+                    temp.transform.parent = null;
                 }
             }
         }

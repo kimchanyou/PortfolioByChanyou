@@ -2,11 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 public class PlayerController : MonoBehaviour
 {
     public float attackTime = 0.5f;     // 공격 쿨타임
-    public float attackRange = 1.5f;    // 공격 사정거리
 
     public Vector2 inputVec;
     public Vector2 dirVec;              // 바라보는 방향
@@ -78,6 +78,7 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
+        if (EventSystem.current.IsPointerOverGameObject()) return;      // 인벤토리에서 마우스로 움직일시 다른 이벤트 받지 않도록
         switch (State)
         {
             case Define.PlayerState.DIE:
@@ -115,9 +116,6 @@ public class PlayerController : MonoBehaviour
 
         Vector2 nextVec = inputVec.normalized * moveSpeed * Time.deltaTime;
         rigid.MovePosition(rigid.position + nextVec);
-
-        Debug.DrawRay(transform.position, dirVec * attackRange, Color.green);
-        
     }
     private void OnMouseEvent(Define.MouseEvent evt)
     {
