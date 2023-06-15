@@ -9,7 +9,7 @@ public class ToolTip : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     public string attackText;
     public string tipText;
     public Sprite itemToShow;
-    private float timeToWait = 0.5f;
+    private float timeToWait = 0.2f;
 
     void Start()
     {

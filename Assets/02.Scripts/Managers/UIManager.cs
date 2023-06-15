@@ -74,7 +74,7 @@ public class UIManager : MonoBehaviour
                     GemInven gemTemp = itemLists[i];
                     itemLists[i] = itemLists[j];
                     itemLists[j] = gemTemp;
-                    temp.transform.parent = null;
+                    temp.transform.SetParent(null);
                 }
             }
         }
@@ -91,7 +91,7 @@ public class UIManager : MonoBehaviour
                     if (itemInvenLists[j].transform.childCount != 0)
                     {
                         GameObject trimGem = itemInvenLists[j].transform.GetChild(0).gameObject;
-                        trimGem.transform.SetParent(itemInvenLists[i].transform);
+                        trimGem.transform.SetParent(itemInvenLists[i].transform, false);
                         trimGem.transform.localPosition = Vector3.zero;
                         break;
                     }
@@ -110,7 +110,7 @@ public class UIManager : MonoBehaviour
                     if (itemWeaponLists[j].transform.childCount != 0)
                     {
                         GameObject trimGem = itemWeaponLists[j].transform.GetChild(0).gameObject;
-                        trimGem.transform.SetParent(itemWeaponLists[i].transform);
+                        trimGem.transform.SetParent(itemWeaponLists[i].transform, false);
                         trimGem.transform.localPosition = Vector3.zero;
                         break;
                     }
@@ -135,7 +135,7 @@ public class UIManager : MonoBehaviour
                     GemInven gemTemp = itemLists[i];
                     itemLists[i] = itemLists[j];
                     itemLists[j] = gemTemp;
-                    temp.transform.parent = null;
+                    temp.transform.SetParent(null);
                 }
             }
         }

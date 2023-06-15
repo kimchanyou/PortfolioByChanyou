@@ -5,6 +5,9 @@ using UnityEngine.UI;
 
 public class GemAttack : MonoBehaviour
 {
+    private UIManager canvas_UI;
+    private FloatingText floatingText;
+
     private Rigidbody2D rbody2D;
     private BoxCollider2D boxCol2D;
 
@@ -23,6 +26,8 @@ public class GemAttack : MonoBehaviour
 
     void Awake()
     {
+        canvas_UI = FindObjectOfType<UIManager>();
+        floatingText = canvas_UI.transform.GetChild(4).GetComponent<FloatingText>();
         rbody2D = GetComponent<Rigidbody2D>();
         boxCol2D = GetComponent<BoxCollider2D>();
         spriter = GetComponent<SpriteRenderer>();
@@ -64,6 +69,7 @@ public class GemAttack : MonoBehaviour
                 gemInven.gemName = gemInfo.gemName;
                 gemInven.spriteName = gemInfo.spriteName;
                 Managers.Pool.ReturnObject(targetGem, Managers.Pool.itemRoot, Managers.Pool.itemPool);
+                floatingText.ShowText("·¹º§ " + (gemInfo.id + 1).ToString() + "º¸¼® È¹µæ");
             }
             StartCoroutine(GemCol());
         }

@@ -1,15 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
 public class Drop : MonoBehaviour, IDropHandler
 {
     private RectTransform parentRect;
+    private UIManager canvas_UI;
 
     void Start()
     {
         parentRect = GetComponent<RectTransform>();
+        canvas_UI = FindObjectOfType<UIManager>();
     }
     public void OnDrop(PointerEventData eventData)
     {
@@ -25,6 +28,7 @@ public class Drop : MonoBehaviour, IDropHandler
         }
         else
         {
+            FloatingText floatingText = canvas_UI.transform.GetChild(4).GetComponent<FloatingText>();
             GemInven originGem = transform.GetChild(0).GetComponent<GemInven>();
             GemInven draggingGem = eventData.pointerDrag.transform.GetComponent<GemInven>();
             ToolTip originTool = transform.GetChild(0).GetComponent<ToolTip>();
@@ -47,6 +51,7 @@ public class Drop : MonoBehaviour, IDropHandler
                 {
                     if (originGem.id >= 10)
                     {
+                        floatingText.ShowText("최대 레벨 입니다.");
                         Debug.Log("최대레벨");
                         return;
                     }
@@ -61,6 +66,7 @@ public class Drop : MonoBehaviour, IDropHandler
                     originTool.attackText = "공격력 : " + originGem.attack.ToString();
                     originTool.tipText = originGem.gemName;
                     originTool.itemToShow = originGem.gemImage.sprite;
+                    floatingText.ShowText("레벨 " + (originGem.id + 1).ToString() + "보석 합성 성공");
                     Destroy(draggingGem.gameObject);
                 }
             }
