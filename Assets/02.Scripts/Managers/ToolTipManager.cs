@@ -54,7 +54,7 @@ public class ToolTipManager : MonoBehaviour
     private void ShowTip(string level, string attack, string tip, Sprite item, Vector2 pos)
     {
         levelText.text = level;
-        attackText.text = attack;
+        //attackText.text = attack;
         tipText.text = tip;
         itemImage.sprite = item;
         tipWindow.sizeDelta = new Vector2(350, 250);
@@ -65,7 +65,7 @@ public class ToolTipManager : MonoBehaviour
     private void HideTip()
     {
         levelText.text = default;
-        attackText.text = default;
+        //attackText.text = default;
         tipText.text = default;
         itemImage.sprite = default;
         tipWindow.gameObject.SetActive(false);

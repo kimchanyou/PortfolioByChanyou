@@ -9,12 +9,12 @@ public class ToolTip : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     public string attackText;
     public string tipText;
     public Sprite itemToShow;
-    private float timeToWait = 0.2f;
+    private float timeToWait = 0.5f;
 
     void Start()
     {
         levelText = "레벨 : " + (GetComponent<GemInven>().id + 1).ToString();
-        attackText = "공격력 : " + GetComponent<GemInven>().attack.ToString();
+        //attackText = "공격력 : " + GetComponent<GemInven>().attack.ToString();
         tipText = GetComponent<GemInven>().gemName;
         itemToShow = GetComponent<GemInven>().gemImage.sprite;
     }
