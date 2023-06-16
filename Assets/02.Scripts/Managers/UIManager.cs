@@ -10,8 +10,8 @@ public class UIManager : MonoBehaviour
     public GameObject canvasUI;
     public GameObject inventory;
     public Drop[] itemInvenLists;
+    public Drop[] itemWeaponLists;
     public GemInven[] itemLists;
-    public Attackable[] attackables;
     public GameObject temp;
 
     public bool isOpen = false;
@@ -28,7 +28,6 @@ public class UIManager : MonoBehaviour
         {
             Destroy(this.gameObject);
         }
-        attackables = GetComponentsInChildren<Attackable>();
     }
     void Start()
     {
@@ -60,24 +59,7 @@ public class UIManager : MonoBehaviour
         // 전체 보석을 검사해서 비교 후 sort정렬하기
         itemLists = GetComponentsInChildren<GemInven>();
         if (itemLists == null) return;
-        //for (int i = 0; i < itemLists.Length - 1; i++)
-        //{
-        //    for (int j = 0; j < itemLists.Length - i - 1; j++)
-        //    {
-        //        if (itemLists[j].id < itemLists[(j + 1)].id)
-        //        {
-        //            temp.transform.SetParent(itemLists[j].transform.parent);
-        //            itemLists[j].transform.SetParent(itemLists[(j + 1)].transform.parent);
-        //            itemLists[(j + 1)].transform.SetParent(temp.transform.parent);
-        //            itemLists[j].transform.localPosition = Vector3.zero;
-        //            itemLists[(j + 1)].transform.localPosition = Vector3.zero;
-        //            temp.transform.parent = null;
-        //            GemInven gemTemp = itemLists[j];
-        //            itemLists[j] = itemLists[(j + 1)];
-        //            itemLists[(j + 1)] = gemTemp;
-        //        }
-        //    }
-        //}
+        
         for (int i = 0; i < itemLists.Length - 1; i++)
         {
             for (int j = i + 1; j < itemLists.Length; j++)
@@ -92,7 +74,7 @@ public class UIManager : MonoBehaviour
                     GemInven gemTemp = itemLists[i];
                     itemLists[i] = itemLists[j];
                     itemLists[j] = gemTemp;
-                    temp.transform.parent = null;
+                    temp.transform.SetParent(null);
                 }
             }
         }
@@ -109,10 +91,51 @@ public class UIManager : MonoBehaviour
                     if (itemInvenLists[j].transform.childCount != 0)
                     {
                         GameObject trimGem = itemInvenLists[j].transform.GetChild(0).gameObject;
-                        trimGem.transform.SetParent(itemInvenLists[i].transform);
+                        trimGem.transform.SetParent(itemInvenLists[i].transform, false);
                         trimGem.transform.localPosition = Vector3.zero;
                         break;
                     }
+                }
+            }
+        }
+    }
+    public void SortWeapon()
+    {
+        for (int i = 0; i < itemWeaponLists.Length; i++)
+        {
+            if (itemWeaponLists[i].transform.childCount == 0)
+            {
+                for (int j = i; j < itemWeaponLists.Length; j++)
+                {
+                    if (itemWeaponLists[j].transform.childCount != 0)
+                    {
+                        GameObject trimGem = itemWeaponLists[j].transform.GetChild(0).gameObject;
+                        trimGem.transform.SetParent(itemWeaponLists[i].transform, false);
+                        trimGem.transform.localPosition = Vector3.zero;
+                        break;
+                    }
+                }
+            }
+        }
+
+        itemLists = GameObject.Find("Attack").GetComponentsInChildren<GemInven>();
+        if (itemLists == null) return;
+
+        for (int i = 0; i < itemLists.Length - 1; i++)
+        {
+            for (int j = i + 1; j < itemLists.Length; j++)
+            {
+                if (itemLists[i].id < itemLists[j].id)
+                {
+                    temp.transform.SetParent(itemLists[i].transform.parent, false);
+                    itemLists[i].transform.SetParent(itemLists[j].transform.parent, false);
+                    itemLists[j].transform.SetParent(temp.transform.parent, false);
+                    itemLists[i].transform.localPosition = Vector3.zero;
+                    itemLists[j].transform.localPosition = Vector3.zero;
+                    GemInven gemTemp = itemLists[i];
+                    itemLists[i] = itemLists[j];
+                    itemLists[j] = gemTemp;
+                    temp.transform.SetParent(null);
                 }
             }
         }

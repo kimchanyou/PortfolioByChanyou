@@ -10,7 +10,9 @@ public class GemInven : MonoBehaviour
     public Dictionary<int, GemInfo> dicGem;
 
     public Image gemImage;
-    public TextMeshProUGUI levelText;
+
+    public Image coolImage;
+    public TextMeshProUGUI coolText;
 
     [Header("GemInfo")]
     public int id;
@@ -18,17 +20,42 @@ public class GemInven : MonoBehaviour
     public string gemName;
     public string spriteName;
 
+    public bool isCool = false;
+    private bool isAttack = false;
+
     void Start()
     {
         dicGem = Managers.Data.dicGemData;
         gemImage = GetComponent<Image>();
         gemImage.sprite = Resources.Load<Sprite>($"Textures/{spriteName}");
-        levelText = GetComponentInChildren<TextMeshProUGUI>();
-        levelText.text = "LV " + (id + 1);
+        coolImage.enabled = false;
+        coolText.enabled = false;
     }
 
     void Update()
     {
-        
+        if (isCool && !isAttack)
+        {
+            StartCoroutine(IsAttackTrue());
+        }
+    }
+
+    IEnumerator IsAttackTrue()
+    {
+        coolImage.enabled = true;
+        coolText.enabled = true;
+        float coolTime = 3f;
+        isAttack = true;
+        while (coolTime > 0)
+        {
+            coolTime -= Time.deltaTime;
+            coolImage.fillAmount = coolTime / 3f;
+            coolText.text = coolTime.ToString("0.0");
+            yield return new WaitForFixedUpdate();
+        }
+        coolImage.enabled = false;
+        coolText.enabled = false;
+        isCool = false;
+        isAttack = false;
     }
 }

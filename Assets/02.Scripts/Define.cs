@@ -18,8 +18,4 @@ public class Define
         PointerUp,
         Click,
     }
-    public enum GemGrade
-    {
-
-    }
 }

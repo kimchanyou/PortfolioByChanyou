@@ -2,27 +2,38 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 public class PlayerController : MonoBehaviour
 {
+    private UIManager canvas_UI;
+    private FloatingText floatingText;
+
     public float attackTime = 0.5f;     // 공격 쿨타임
-    public float attackRange = 1.5f;    // 공격 사정거리
 
     public Vector2 inputVec;
     public Vector2 dirVec;              // 바라보는 방향
+
+    public static Vector2 attackVec;
+    public static string attackSpriteName;
+
     [SerializeField]
     private float moveSpeed = 5f;       // 이동 속도
-    public float ditectionRange = 4f;   // 보석 공격 사정거리
+    public float ditectionRange = 10f;   // 가이드라인 생성 조건 거리
 
     public Rigidbody2D rigid;
     public SpriteRenderer spriter;
+    public AudioSource audioSource;
+    public AudioClip attackClip;
+    public AudioClip gemAttackClip;
     public Camera mainCam;
+    private Texture2D basicCursor;
 
     public GameObject targetGem = null;
     public GameObject gemItemInven;
     public GameObject guideLine;
 
-    public Attackable[] attackables;
+    public GemInven[] attackable;
 
     public bool isAttack = false;
 
@@ -61,20 +72,27 @@ public class PlayerController : MonoBehaviour
     }
     private void Start()
     {
+        canvas_UI = FindObjectOfType<UIManager>();
+        floatingText = canvas_UI.transform.GetChild(4).GetComponent<FloatingText>();
         rigid = GetComponent<Rigidbody2D>();
         spriter = GetComponent<SpriteRenderer>();
+        audioSource = GetComponent<AudioSource>();
+        attackClip = Resources.Load<AudioClip>("Sounds/Attack");
+        gemAttackClip = Resources.Load<AudioClip>("Sounds/GemAttack");
+        basicCursor = Resources.Load<Texture2D>("Textures/Cursor/Basic");
         mainCam = Camera.main;
-        attackables = UIManager.instance.attackables;
         Managers.Input.KeyAction -= OnKeyborard;
         Managers.Input.KeyAction += OnKeyborard;
-        Managers.Input.MounseAction -= OnMouseEvent;
-        Managers.Input.MounseAction += OnMouseEvent;
+        //Managers.Input.MounseAction -= OnMouseEvent;
+        //Managers.Input.MounseAction += OnMouseEvent;
         gemItemInven = Resources.Load<GameObject>("Prefabs/02GemItem"); // 인벤토리에 들어갈 보석 프리팹 로드
         guideLine = transform.GetChild(0).gameObject;
+        Cursor.SetCursor(basicCursor, new Vector2(basicCursor.width / 4, basicCursor.height / 4), CursorMode.Auto);
     }
 
     private void Update()
     {
+        if (EventSystem.current.IsPointerOverGameObject()) return;  // 인벤토리에서 마우스로 움직일시 다른 이벤트 받지 않도록
         switch (State)
         {
             case Define.PlayerState.DIE:
@@ -91,7 +109,8 @@ public class PlayerController : MonoBehaviour
                 break;
         }
         TargetFind();
-        MouseCheck();
+        MouseAttack();
+        attackable = GameObject.Find("Attack").GetComponentsInChildren<GemInven>();
     }
     
     void LateUpdate()
@@ -100,8 +119,9 @@ public class PlayerController : MonoBehaviour
         if (inputVec.x != 0)
             spriter.flipX = inputVec.x < 0;
 
-        // 바라보는 방향
-        dirVec.x = spriter.flipX ? -1 : 1;
+        // 바라보는 방향 RayCastHit방식에서 사용
+        //dirVec.x = spriter.flipX ? -1 : 1;
+
     }
     private void OnKeyborard()
     {
@@ -111,9 +131,6 @@ public class PlayerController : MonoBehaviour
 
         Vector2 nextVec = inputVec.normalized * moveSpeed * Time.deltaTime;
         rigid.MovePosition(rigid.position + nextVec);
-
-        Debug.DrawRay(transform.position, dirVec * attackRange, Color.green);
-        
     }
     private void OnMouseEvent(Define.MouseEvent evt)
     {
@@ -131,18 +148,17 @@ public class PlayerController : MonoBehaviour
     public void UpdateDie()
     {
         // 부활 할건지 물어보는 팝업 창 뜨게?
-
     }
     public void UpdateIdle()
     {
-        if (!isAttack && Input.GetKeyDown(KeyCode.Space))
+        if (!isAttack && Input.GetMouseButtonDown(0))
             State = Define.PlayerState.ATTACK;
         if (inputVec.magnitude != 0)
             State = Define.PlayerState.WALK;
     }
     public void UpdateWalk()
     {
-        if (!isAttack && Input.GetKeyDown(KeyCode.Space))
+        if (!isAttack && Input.GetMouseButtonDown(0))
             State = Define.PlayerState.ATTACK;
         if (Input.GetButton("Horizontal") == false && Input.GetButton("Vertical") == false)
         {
@@ -163,6 +179,8 @@ public class PlayerController : MonoBehaviour
     public void OnHitEvent()
     {
         if (targetGem == null) return;
+        audioSource.clip = attackClip;
+        audioSource.Play();
         Slider hpbar = targetGem.GetComponentInChildren<Slider>();
         hpbar.value -= 0.2f;
         if (hpbar.value <= 0.001f)
@@ -174,15 +192,39 @@ public class PlayerController : MonoBehaviour
             gemInven.gemName = gemName;
             gemInven.spriteName = spriteName;
             Managers.Pool.ReturnObject(targetGem, Managers.Pool.itemRoot, Managers.Pool.itemPool);
+            floatingText.ShowText("레벨 " + (id + 1).ToString() + "보석 획득");
         }
-        
+
     }
+    #region RaycastHit 방식 TargetFind
+    //private void TargetFind()
+    //{
+    //    RaycastHit2D hit = Physics2D.Raycast(transform.position, dirVec.normalized, attackRange, LayerMask.GetMask("Gem"));
+    //    if (hit.collider != null)
+    //    {
+    //        targetGem = hit.collider.gameObject;
+    //        GemItem gem = targetGem.GetComponent<GemItem>();
+    //        GemInfo gemInfo = gem.dicGem[gem.gemId];
+    //        id = gemInfo.id;
+    //        attack = gemInfo.attack;
+    //        gemName = gemInfo.gemName;
+    //        spriteName = gemInfo.spriteName;
+    //    }
+    //    else
+    //    {
+    //        id = 0;
+    //        attack = 0;
+    //        gemName = null;
+    //        spriteName = null;
+    //        targetGem = null;
+    //    }
+    //}
+    #endregion
     private void TargetFind()
     {
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, dirVec.normalized, attackRange, LayerMask.GetMask("Gem"));
-        if (hit.collider != null)
+        targetGem = FindTarget.targetGem;
+        if (targetGem != null)
         {
-            targetGem = hit.collider.gameObject;
             GemItem gem = targetGem.GetComponent<GemItem>();
             GemInfo gemInfo = gem.dicGem[gem.gemId];
             id = gemInfo.id;
@@ -196,10 +238,9 @@ public class PlayerController : MonoBehaviour
             attack = 0;
             gemName = null;
             spriteName = null;
-            targetGem = null;
-            //sprite = null;
         }
     }
+
     IEnumerator AttackTime(float attackTime)
     {
         isAttack = true;
@@ -219,7 +260,7 @@ public class PlayerController : MonoBehaviour
         return null;
     }
 
-    private void MouseCheck()
+    private void MouseAttack()
     {
         Vector2 mousePos = Input.mousePosition;
         // 현재 마우스의 위치를 게임내의 Position 값으로 변환
@@ -232,5 +273,50 @@ public class PlayerController : MonoBehaviour
         guideLine.SetActive(distanceVec.magnitude < ditectionRange ? true : false);
 
         guideLine.transform.right = distanceVec.normalized;
+
+        if (Input.GetMouseButtonDown(0))
+        {
+            spriter.flipX = distanceVec.x > 0 ? false : true;
+            if (targetGem != null) return;
+            for (int i = 0; i < attackable.Length; i++)
+            {
+                if (attackable[i].isCool == false)
+                {
+                    attackable[i].isCool = true;
+                    attackSpriteName = attackable[i].spriteName;
+                    attackVec = distanceVec;
+                    GameObject attackGem = Managers.Pool.GetObject(Managers.Pool.attackPool);
+                    if (attackGem == null) return;
+                    audioSource.clip = gemAttackClip;
+                    audioSource.Play();
+                    attackGem.transform.position = transform.position + (Vector3)distanceVec.normalized;
+                    attackGem.GetComponent<Rigidbody2D>().AddForce(distanceVec.normalized * 1000f);
+                    break;
+                }
+            }
+            
+        }
     }
+    //private void UpdateMouseCursor()
+    //{
+    //    Vector2 mousePos = Input.mousePosition;
+    //    // 현재 마우스의 위치를 게임내의 Position 값으로 변환
+    //    mousePos = mainCam.ScreenToWorldPoint(mousePos);
+
+    //    Ray2D ray2D = new Ray2D(mousePos, Vector2.zero);
+    //    RaycastHit2D hit2D = Physics2D.Raycast(ray2D.origin, ray2D.direction);
+        
+    //    if (hit2D.collider.gameObject.layer == LayerMask.GetMask("Gem"))
+    //    {
+    //        Cursor.SetCursor(attackCursor, new Vector2(attackCursor.width / 4, attackCursor.height / 4), CursorMode.Auto);
+    //    }
+    //    else if (hit2D.collider.gameObject.layer == LayerMask.GetMask("Weapon"))
+    //    {
+    //        Cursor.SetCursor(mergeCursor, new Vector2(mergeCursor.width / 4, mergeCursor.height / 4), CursorMode.Auto);
+    //    }
+    //    else
+    //    {
+    //        Cursor.SetCursor(basicCursor, new Vector2(basicCursor.width / 4, basicCursor.height / 4), CursorMode.Auto);
+    //    }
+    //}
 }
