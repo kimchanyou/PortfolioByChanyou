@@ -42,17 +42,21 @@ public class GemInven : MonoBehaviour
 
     IEnumerator IsAttackTrue()
     {
+        // 쿨타임이 시작되면 이미지와 텍스트 출력
         coolImage.enabled = true;
         coolText.enabled = true;
         float coolTime = 3f;
         isAttack = true;
         while (coolTime > 0)
         {
+            // 3초 동안 쿨타임 진행 되도록
             coolTime -= Time.deltaTime;
             coolImage.fillAmount = coolTime / 3f;
+            // 소수점 한자리까지만 표시 되도록
             coolText.text = coolTime.ToString("0.0");
             yield return new WaitForFixedUpdate();
         }
+        // 쿨타임이 끝나면 이미지와 텍스트 안보이도록
         coolImage.enabled = false;
         coolText.enabled = false;
         isCool = false;
