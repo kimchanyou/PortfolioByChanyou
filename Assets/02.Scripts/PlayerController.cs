@@ -262,13 +262,13 @@ public class PlayerController : MonoBehaviour
         Vector2 mousePos = Input.mousePosition;
         // 현재 마우스의 위치를 게임내의 Position 값으로 변환
         mousePos = mainCam.ScreenToWorldPoint(mousePos);
-
+        // 플레이어의 현재 위치
         Vector3 playerPos = transform.position;
-
+        // 마우스가 가리키는 방향벡터
         Vector2 distanceVec = mousePos - (Vector2)playerPos;
-
+        // 마우스가 가리키는 방향이 사거리 내에 들어오면 가이드라인 활성화
         guideLine.SetActive(distanceVec.magnitude < ditectionRange ? true : false);
-
+        // 가이드라인의 가리키는 방향을 공격 방향으로 설정
         guideLine.transform.right = distanceVec.normalized;
 
         if (Input.GetMouseButtonDown(0))

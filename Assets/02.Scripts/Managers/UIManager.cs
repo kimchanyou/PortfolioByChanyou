@@ -53,7 +53,7 @@ public class UIManager : MonoBehaviour
             }
         }
     }
-    public void SortAll()
+    public void SortAll() // Trim을 한 후 아이템 레벨을 비교해서 내림차순으로 정렬
     {
         TrimAll();
         // 전체 보석을 검사해서 비교 후 sort정렬하기
@@ -80,7 +80,7 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    public void TrimAll()
+    public void TrimAll() // 인벤토리의 빈공간을 검사 후 아이템을 빈 공간 없이 정렬
     {
         for (int i = 0; i < itemInvenLists.Length; i++)
         {
