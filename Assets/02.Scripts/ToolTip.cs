@@ -19,11 +19,6 @@ public class ToolTip : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
         itemToShow = GetComponent<GemInven>().gemImage.sprite;
     }
 
-    void Update()
-    {
-        
-    }
-
     public void OnPointerEnter(PointerEventData eventData)
     {
         StopAllCoroutines();

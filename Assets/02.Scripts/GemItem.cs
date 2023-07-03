@@ -42,7 +42,8 @@ public class GemItem : GemStat
         gemId = 0;
     }
 
-    public int Choose(float[] probs) // float 반환, float 배열 인자로 받음 float 배열이 확률을 나타낸다.
+    // float 반환, float 배열 인자로 받음 float 배열이 확률을 나타낸다.
+    public int Choose(float[] probs)
     {
         float total = 0;
 

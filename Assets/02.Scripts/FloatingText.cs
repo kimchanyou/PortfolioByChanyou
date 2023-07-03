@@ -25,13 +25,13 @@ public class FloatingText : MonoBehaviour
     {
         if (gameObject.activeSelf)
         {
-            //vector.Set(text.transform.position.x, text.transform.position.y + (moveSpeed * Time.deltaTime));
+            // floatingText의 포지션이 위로 일정 속도로 상승
             vector.Set(rectTr.anchoredPosition.x, rectTr.anchoredPosition.y + (moveSpeed * Time.deltaTime));
             rectTr.anchoredPosition = vector;
 
             destroyTime -= Time.deltaTime;
 
-            if (destroyTime <= 0)
+            if (destroyTime <= 0) // 시간이 지나면 floatingText가 비활성화 되고 위치 초기화
             {
                 destroyTime = 1.5f;
                 gameObject.SetActive(false);
@@ -40,6 +40,7 @@ public class FloatingText : MonoBehaviour
         }
     }
 
+    // 보석 획득 및 합성시 해당 문구가 뜰 수 있도록 호출해서 사용
     public void ShowText(string showText)
     {
         gameObject.SetActive(true);

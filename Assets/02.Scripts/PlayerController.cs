@@ -11,22 +11,22 @@ public class PlayerController : MonoBehaviour
 
     public float attackTime = 0.5f;     // 공격 쿨타임
 
-    public Vector2 inputVec;
-    public Vector2 dirVec;              // 바라보는 방향
+    private Vector2 inputVec;
+    private Vector2 dirVec;              // 바라보는 방향
 
     public static Vector2 attackVec;
     public static string attackSpriteName;
 
     [SerializeField]
     private float moveSpeed = 5f;       // 이동 속도
-    public float ditectionRange = 10f;   // 가이드라인 생성 조건 거리
+    private float ditectionRange = 10f;   // 가이드라인 생성 조건 거리
 
-    public Rigidbody2D rigid;
-    public SpriteRenderer spriter;
-    public AudioSource audioSource;
-    public AudioClip attackClip;
-    public AudioClip gemAttackClip;
-    public Camera mainCam;
+    private Rigidbody2D rigid;
+    private SpriteRenderer spriter;
+    private AudioSource audioSource;
+    private AudioClip attackClip;
+    private AudioClip gemAttackClip;
+    private Camera mainCam;
     private Texture2D basicCursor;
 
     public GameObject targetGem = null;
@@ -83,8 +83,6 @@ public class PlayerController : MonoBehaviour
         mainCam = Camera.main;
         Managers.Input.KeyAction -= OnKeyborard;
         Managers.Input.KeyAction += OnKeyborard;
-        //Managers.Input.MounseAction -= OnMouseEvent;
-        //Managers.Input.MounseAction += OnMouseEvent;
         gemItemInven = Resources.Load<GameObject>("Prefabs/02GemItem"); // 인벤토리에 들어갈 보석 프리팹 로드
         guideLine = transform.GetChild(0).gameObject;
         Cursor.SetCursor(basicCursor, new Vector2(basicCursor.width / 4, basicCursor.height / 4), CursorMode.Auto);
@@ -121,7 +119,6 @@ public class PlayerController : MonoBehaviour
 
         // 바라보는 방향 RayCastHit방식에서 사용
         //dirVec.x = spriter.flipX ? -1 : 1;
-
     }
     private void OnKeyborard()
     {
@@ -265,13 +262,13 @@ public class PlayerController : MonoBehaviour
         Vector2 mousePos = Input.mousePosition;
         // 현재 마우스의 위치를 게임내의 Position 값으로 변환
         mousePos = mainCam.ScreenToWorldPoint(mousePos);
-
+        // 플레이어의 현재 위치
         Vector3 playerPos = transform.position;
-
+        // 마우스가 가리키는 방향벡터
         Vector2 distanceVec = mousePos - (Vector2)playerPos;
-
+        // 마우스가 가리키는 방향이 사거리 내에 들어오면 가이드라인 활성화
         guideLine.SetActive(distanceVec.magnitude < ditectionRange ? true : false);
-
+        // 가이드라인의 가리키는 방향을 공격 방향으로 설정
         guideLine.transform.right = distanceVec.normalized;
 
         if (Input.GetMouseButtonDown(0))
@@ -297,26 +294,4 @@ public class PlayerController : MonoBehaviour
             
         }
     }
-    //private void UpdateMouseCursor()
-    //{
-    //    Vector2 mousePos = Input.mousePosition;
-    //    // 현재 마우스의 위치를 게임내의 Position 값으로 변환
-    //    mousePos = mainCam.ScreenToWorldPoint(mousePos);
-
-    //    Ray2D ray2D = new Ray2D(mousePos, Vector2.zero);
-    //    RaycastHit2D hit2D = Physics2D.Raycast(ray2D.origin, ray2D.direction);
-        
-    //    if (hit2D.collider.gameObject.layer == LayerMask.GetMask("Gem"))
-    //    {
-    //        Cursor.SetCursor(attackCursor, new Vector2(attackCursor.width / 4, attackCursor.height / 4), CursorMode.Auto);
-    //    }
-    //    else if (hit2D.collider.gameObject.layer == LayerMask.GetMask("Weapon"))
-    //    {
-    //        Cursor.SetCursor(mergeCursor, new Vector2(mergeCursor.width / 4, mergeCursor.height / 4), CursorMode.Auto);
-    //    }
-    //    else
-    //    {
-    //        Cursor.SetCursor(basicCursor, new Vector2(basicCursor.width / 4, basicCursor.height / 4), CursorMode.Auto);
-    //    }
-    //}
 }

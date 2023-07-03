@@ -60,6 +60,7 @@ public class GemAttack : MonoBehaviour
             hpbar.value -= 0.2f;
             if (hpbar.value <= 0.001f)
             {
+                // 얻은 보석의 정보를 인벤토리로 가져오기
                 GameObject clone = Instantiate(gemItemInven, GetItemInven());
                 GemInven gemInven = clone.GetComponent<GemInven>();
                 GemItem gem = targetGem.GetComponent<GemItem>();
@@ -69,6 +70,7 @@ public class GemAttack : MonoBehaviour
                 gemInven.gemName = gemInfo.gemName;
                 gemInven.spriteName = gemInfo.spriteName;
                 Managers.Pool.ReturnObject(targetGem, Managers.Pool.itemRoot, Managers.Pool.itemPool);
+                // FloatingText의 문구 표시되도록 설정
                 floatingText.ShowText("레벨 " + (gemInfo.id + 1).ToString() + "보석 획득");
             }
             StartCoroutine(GemCol());
